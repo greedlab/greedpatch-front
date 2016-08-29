@@ -1,8 +1,8 @@
 # node-front-template
 
-template for front end based on node.js
+基于 node.js 的前端模板
 
-English | [中文](README-CN.md)
+[English](README.md) | 中文
 
 ## clone
 
@@ -10,7 +10,7 @@ English | [中文](README-CN.md)
 $ git clone https://github.com/greedlab/node-front-template.git
 ```
 
-## develop env
+## 开发环境
 
 ```
 $ npm install -g gulp
@@ -21,7 +21,7 @@ $ gulp watch
 $ npm run develop
 ```
 
-## production env
+## 生产环境
 
 ```
 $ npm install -g gulp

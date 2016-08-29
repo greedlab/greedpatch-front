@@ -1,0 +1,1 @@
+{"version":3,"sources":["stylesheets/style.scss"],"names":[],"mappings":"AAEA,GACE,MAHK,QAMP,SACE,WAAY,OAGd,eACE,MAAO,KAGT,cACE,MAAO","file":"stylesheets/style.min.css","sourcesContent":["$blue: #1875e7;\n\nh1 {\n  color: $blue;\n}\n\n.content {\n  text-align: center;\n}\n\n.error-message {\n  color: #dd1144;\n}\n\n.login-button {\n  right: 100px;\n}"],"sourceRoot":"/source/"}

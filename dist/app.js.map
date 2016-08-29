@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.js"],"names":["require"],"mappings":";;AAAAA,QAAQ,gBAAR;AACAA,QAAQ,iBAAR","file":"app.js","sourcesContent":["require('babel-polyfill');\nrequire('./bin/server.js');\n"],"sourceRoot":"/source/"}

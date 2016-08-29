@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+    <title>Book List</title>
+</head>
+<body>
+<div>
+    {{if logined}}
+    <form action="/logout" method="post">
+        <input type="submit" value="sign out">
+    </form>
+    {{else}}
+    <form action="/login" method="get">
+        <input type="submit" value="sign in">
+    </form>
+    {{/if}}
+</div>
+<div class="content">
+
+    {{each books as value index}}
+    <li>
+        {{index}} - <a href="/book/detail?id={{value._id}}">{{value.name}}</a>
+    </li>
+    {{/each}}
+
+    {{if logined}}
+    <div>
+        <a href="/book/add"> add book </a>
+    </div>
+    {{/if}}
+    <div id="testReact"></div>
+</div>
+
+<div>
+    <a href="https://github.com/greedlab/node-front-template">
+        <img src="/images/GitHub-Mark-64px.png" alt="GitHub node-front-template">
+    </a>
+</div>
+<script src="/javascripts/book.jsx"></script>
+</body>
+</html>
