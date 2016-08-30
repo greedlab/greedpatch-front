@@ -11,6 +11,10 @@ import config from '../config';
 import home from '../routes/home';
 import book from '../routes/book';
 
+import Debug from 'debug';
+import pkg from '../../package.json';
+const debug = new Debug(pkg.name);
+
 const app = new koa();
 
 app.keys = config.cookie_keys;
@@ -23,14 +27,6 @@ app.use(logger());
 
 app.use(bodyParser());
 
-// router
-
-app
-    .use(home.router.routes())
-    .use(home.router.allowedMethods())
-    .use(book.router.routes())
-    .use(book.router.allowedMethods());
-
 // favicon
 
 app.use(favicon(path.join(__dirname,'../assets/favicon.ico')));
@@ -38,6 +34,17 @@ app.use(favicon(path.join(__dirname,'../assets/favicon.ico')));
 // static
 
 app.use(serve(path.join(__dirname,'../assets')));
+
+// router
+
+app
+    .use(home.router.routes())
+    .use(home.router.allowedMethods());
+
+app.use(async (ctx, next) => {
+    debug(ctx.request);
+    return next();
+});
 
 // listen
 

@@ -8,7 +8,7 @@ import * as project from '../controllers/project';
 import * as user from '../controllers/user';
 
 const base_url = '/';
-const router = new Router();
+let router = new Router();
 
 router
     .get('/', project.list)
@@ -21,6 +21,10 @@ router
     .get('/set-my-password', user.setMyPassword)
     .post('/set-my-password', user.setMyPasswordRequest)
     .post('/logout', user.logoutRequest);
+
+// router
+//     .get('/login', user.login);
+
 
 export default {
     baseUrl: base_url,

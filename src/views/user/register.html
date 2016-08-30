@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/stylesheets/style.css"/>
     <link rel="stylesheet" href="/stylesheets/user.css"/>
-    <title>Login</title>
+    <title>Register</title>
 </head>
 <body>
 <div class="content">
-    <h1>{{title}}</h1>
+    <h1>Register</h1>
 
     {{if error}}
     <p class="error-message">{{error}}</p>
@@ -16,23 +16,23 @@
 
     <form action="/register" method="post">
         <div>
-            <label for="username">Username</label>
-            <input autocapitalize="off" autocorrect="off" autofocus="autofocus" id="username" name="username" tabindex="1"
-                   type="text" value="{{username}}">
-            <p class="error-message">{{error}}</p>
+            <label for="email">Username</label>
+            <input autocapitalize="off" autocorrect="off" {{email_autofocus}} id="email" name="email" tabindex="1"
+                   type="email" value="{{email}}">
+            <p class="error-message">{{email_error}}</p>
         </div>
         <div>
             <label for="password">Password</label>
-            <input id="password" name="password" tabindex="2" type="password" value="{{password}}">
+            <input id="password" name="password" {{password_autofocus}} tabindex="2" type="password" value="{{password}}">
             <p class="error-message">{{password_error}}</p>
         </div>
         <div>
             <label for="confirm-password">Confirm Password</label>
-            <input id="confirm-password" name="confirm_password" tabindex="3" type="password" value="{{confirm_password}}">
+            <input id="confirm-password" name="confirm_password" {{confirm_password_autofocus}} tabindex="3" type="password" value="{{confirm_password}}">
             <p class="error-message">{{confirm_password_error}}</p>
         </div>
         <div>
-            <input name="commit" tabindex="4" value="Sign up" type="submit">
+            <input tabindex="4" value="Sign up" type="submit">
         </div>
     </form>
 </div>

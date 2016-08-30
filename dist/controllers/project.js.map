@@ -1,0 +1,1 @@
+{"version":3,"sources":["controllers/project.js"],"names":["ctx","next","list"],"mappings":";;;;;;;;;AAAA;;;;;8DAIO,iBAAoBA,GAApB,EAAyBC,IAAzB;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,G;;kBAAeC,I","file":"controllers/project.js","sourcesContent":["/**\n * Created by Bell on 16/8/29.\n */\n\nexport async function list(ctx, next) {\n    \n}"],"sourceRoot":"/source/"}

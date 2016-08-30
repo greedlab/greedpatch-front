@@ -8,9 +8,9 @@ var _koaRouter = require('koa-router');
 
 var _koaRouter2 = _interopRequireDefault(_koaRouter);
 
-var _book = require('../controllers/book');
+var _project = require('../controllers/project');
 
-var book = _interopRequireWildcard(_book);
+var project = _interopRequireWildcard(_project);
 
 var _user = require('../controllers/user');
 
@@ -26,7 +26,11 @@ var base_url = '/'; /**
 
 var router = new _koaRouter2.default();
 
-router.get('/', book.list).get('/login', user.login).post('/login', user.loginRequest).post('/logout', user.logout).get('/register', user.register).post('/register', user.registerRequest);
+router.get('/', project.list).get('/login', user.login).post('/login', user.loginRequest).get('/register', user.register).post('/register', user.registerRequest).get('/reset-password', user.resetPassword).post('/reset-password', user.resetPasswordRequest).get('/set-my-password', user.setMyPassword).post('/set-my-password', user.setMyPasswordRequest).post('/logout', user.logoutRequest);
+
+// router
+//     .get('/login', user.login);
+
 
 exports.default = {
     baseUrl: base_url,
