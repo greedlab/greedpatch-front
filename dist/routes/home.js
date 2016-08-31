@@ -26,11 +26,7 @@ var base_url = '/'; /**
 
 var router = new _koaRouter2.default();
 
-router.get('/', project.list).get('/login', user.login).post('/login', user.loginRequest).get('/register', user.register).post('/register', user.registerRequest).get('/reset-password', user.resetPassword).post('/reset-password', user.resetPasswordRequest).get('/set-my-password', user.setMyPassword).post('/set-my-password', user.setMyPasswordRequest).post('/logout', user.logoutRequest);
-
-// router
-//     .get('/login', user.login);
-
+router.get('/', project.list).get('/login', user.login).post('/login', user.loginRequest).get('/register', user.register).post('/register', user.registerRequest).get('/reset-password', user.resetPassword).post('/reset-password', user.resetPasswordRequest).get('/set-password/:token', user.setPassword).post('/set-password/:token', user.setPasswordRequest).post('/logout', user.logoutRequest);
 
 exports.default = {
     baseUrl: base_url,

@@ -18,13 +18,9 @@ router
     .post('/register', user.registerRequest)
     .get('/reset-password', user.resetPassword)
     .post('/reset-password', user.resetPasswordRequest)
-    .get('/set-my-password', user.setMyPassword)
-    .post('/set-my-password', user.setMyPasswordRequest)
+    .get('/set-password/:token', user.setPassword)
+    .post('/set-password/:token', user.setPasswordRequest)
     .post('/logout', user.logoutRequest);
-
-// router
-//     .get('/login', user.login);
-
 
 export default {
     baseUrl: base_url,

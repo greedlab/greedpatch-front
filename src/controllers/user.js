@@ -10,7 +10,6 @@ import bluebird from 'bluebird';
 
 import config from '../config';
 import * as token from '../utils/token';
-import * as string from '../utils/string';
 
 import Debug from 'debug';
 import pkg from '../../package.json';
@@ -19,24 +18,27 @@ const debug = new Debug(pkg.name);
 const request = bluebird.promisifyAll(Request);
 
 export async function login(ctx, next) {
-    debug(ctx);
     const data = {
-        title: 'Login'
+        email_autofocus: 'autofocus'
     };
     loginWithData(ctx, data);
 }
 
 export async function loginRequest(ctx, next) {
     let data = ctx.request.body;
-    debug(data);
     const options = {
         url: url.resolve(config.api_address, '/login'),
         json: true,
         body: data
     };
-    const response = await request.postAsync(options);
-    debug(response.statusCode);
-    debug(response.body);
+    let response = null;
+    try {
+        response = await request.postAsync(options);
+    } catch (err) {
+        data.error = 'Login failed';
+        loginWithData(ctx, data);
+        return;
+    }
 
     const statusCode = response.statusCode;
     const body = response.body;
@@ -77,7 +79,13 @@ export async function register(ctx, next) {
 
 export async function registerRequest(ctx, next) {
     let data = ctx.request.body;
-    debug(data);
+    if (data.password && data.password != data.confirm_password) {
+        data.confirm_password_error = 'Please input same password';
+        data.confirm_password_autofocus = 'autofocus';
+        registerWithData(ctx, data);
+        return;
+    }
+
     const options = {
         url: url.resolve(config.api_address, '/register'),
         json: true,
@@ -128,7 +136,6 @@ export async function resetPassword(ctx, next) {
 
 export async function resetPasswordRequest(ctx, next) {
     let data = ctx.request.body;
-    debug(data);
     const options = {
         url: url.resolve(config.api_address, '/reset-password'),
         json: true,
@@ -167,12 +174,63 @@ export async function resetPasswordRequest(ctx, next) {
     }
 }
 
-export async function setMyPassword(ctx, next) {
-    loginWithMessage(ctx, next, null);
+export async function setPassword(ctx, next) {
+    const data = {
+        token: ctx.params.token,
+        password_autofocus: 'autofocus'
+    };
+    setPasswordWithData(ctx, data);
 }
 
-export async function setMyPasswordRequest(ctx, next) {
-    loginWithMessage(ctx, next, null);
+export async function setPasswordRequest(ctx, next) {
+    let data = ctx.request.body;
+    if (data.password && data.password != data.confirm_password) {
+        data.confirm_password_error = 'Please input same password';
+        data.confirm_password_autofocus = 'autofocus';
+        setPasswordWithData(ctx, data);
+        return;
+    }
+
+    data.token = ctx.params.token;
+    const options = {
+        url: url.resolve(config.api_address, '/set-password/'),
+        json: true,
+        body: data
+    };
+
+    let response = null;
+    try {
+        response = await request.postAsync(options);
+    } catch (err) {
+        data.error = 'Set password failed';
+        setPasswordWithData(ctx, data);
+        return;
+    }
+    const body = response.body;
+    if (response.statusCode == 200) {
+        token.saveToken(ctx, body.token);
+        ctx.redirect('/');
+    } else {
+        if (response.statusCode == 422) {
+            if (body && body.errors && body.errors.length > 0) {
+                const error = body.errors[0];
+                if (error.field == 'password') {
+                    data.password_autofocus = 'autofocus';
+                    data.password_error = body.message;
+                } else if (error.field == 'confirm_password') {
+                    data.confirm_password_autofocus = 'autofocus';
+                    data.confirm_password_error = body.message;
+                } else {
+                    data.error = body.message;
+                }
+            } else {
+                data.error = body.message;
+            }
+        } else {
+            data.error = 'Set password failed';
+        }
+        setPasswordWithData(ctx, data);
+    }
 }
 
 export async function logoutRequest(ctx, next) {
@@ -186,8 +244,6 @@ export async function logoutRequest(ctx, next) {
             }
         };
         const response = await request.postAsync(options);
-        debug(response.statusCode);
-        debug(response.body);
     }
     ctx.redirect('/');
     token.clearToken(ctx);
@@ -208,7 +264,7 @@ function resetPasswordWithData(ctx, data) {
     ctx.body = html;
 }
 
-function setMyPasswordWithData(ctx, data) {
+function setPasswordWithData(ctx, data) {
     var html = template(path.join(__dirname, '../views/user/set-password'), data);
     ctx.body = html;
 }

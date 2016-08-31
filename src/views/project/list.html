@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
+    <title>Project List</title>
+</head>
+<body>
+
+<div class="content">
+    <script id="main-menu" type="text/html">
+        {{include '../element/main-menu'}}
+    </script>
+
+    <h1>Project List</h1>
+    <p class="error-message">{{error}}</p>
+    <ul>
+        {{each projects}}
+        <li><a href="/projects/{{$value._id}}">{{$value.name}}</a></li>
+        {{/each}}
+    </ul>
+
+    <form action="/projects/new">
+        <input type="submit">
+    </form>
+
+</div>
+
+</body>
+</html>

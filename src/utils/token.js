@@ -17,8 +17,16 @@ export function getToken(ctx) {
     });
 }
 
-export function bearerToken(token) {
+export function bearerTokenFromToken(token) {
     return 'Bearer ' + token;
+}
+
+export function bearerToken(ctx) {
+    const token = getToken(ctx);
+    if (token) {
+        return bearerTokenFromToken(token);
+    }
+    return null;
 }
 
 export function clearToken(ctx) {

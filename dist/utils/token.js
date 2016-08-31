@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.saveToken = saveToken;
 exports.getToken = getToken;
+exports.bearerTokenFromToken = bearerTokenFromToken;
 exports.bearerToken = bearerToken;
 exports.clearToken = clearToken;
 exports.ensureToken = ensureToken;
@@ -27,8 +28,16 @@ function getToken(ctx) {
     });
 }
 
-function bearerToken(token) {
+function bearerTokenFromToken(token) {
     return 'Bearer ' + token;
+}
+
+function bearerToken(ctx) {
+    var token = getToken(ctx);
+    if (token) {
+        return bearerTokenFromToken(token);
+    }
+    return null;
 }
 
 function clearToken(ctx) {

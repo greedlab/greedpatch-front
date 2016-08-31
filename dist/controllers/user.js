@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.logoutRequest = exports.setMyPasswordRequest = exports.setMyPassword = exports.resetPasswordRequest = exports.resetPassword = exports.registerRequest = exports.register = exports.loginRequest = exports.login = undefined;
+exports.logoutRequest = exports.setPasswordRequest = exports.setPassword = exports.resetPasswordRequest = exports.resetPassword = exports.registerRequest = exports.register = exports.loginRequest = exports.login = undefined;
 
 var _bluebird = require('bluebird');
 
@@ -16,14 +16,13 @@ var login = exports.login = function () {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        debug(ctx);
                         data = {
-                            title: 'Login'
+                            email_autofocus: 'autofocus'
                         };
 
                         loginWithData(ctx, data);
 
-                    case 3:
+                    case 2:
                     case 'end':
                         return _context.stop();
                 }
@@ -44,22 +43,30 @@ var loginRequest = exports.loginRequest = function () {
                 switch (_context2.prev = _context2.next) {
                     case 0:
                         data = ctx.request.body;
-
-                        debug(data);
                         options = {
                             url: _url2.default.resolve(_config2.default.api_address, '/login'),
                             json: true,
                             body: data
                         };
-                        _context2.next = 5;
+                        response = null;
+                        _context2.prev = 3;
+                        _context2.next = 6;
                         return request.postAsync(options);
 
-                    case 5:
+                    case 6:
                         response = _context2.sent;
+                        _context2.next = 14;
+                        break;
 
-                        debug(response.statusCode);
-                        debug(response.body);
+                    case 9:
+                        _context2.prev = 9;
+                        _context2.t0 = _context2['catch'](3);
 
+                        data.error = 'Login failed';
+                        loginWithData(ctx, data);
+                        return _context2.abrupt('return');
+
+                    case 14:
                         statusCode = response.statusCode;
                         body = response.body;
 
@@ -91,12 +98,12 @@ var loginRequest = exports.loginRequest = function () {
                             loginWithData(ctx, data);
                         }
 
-                    case 11:
+                    case 17:
                     case 'end':
                         return _context2.stop();
                 }
             }
-        }, _callee2, this);
+        }, _callee2, this, [[3, 9]]);
     }));
 
     return function loginRequest(_x3, _x4) {
@@ -139,31 +146,41 @@ var registerRequest = exports.registerRequest = function () {
                     case 0:
                         data = ctx.request.body;
 
-                        debug(data);
+                        if (!(data.password && data.password != data.confirm_password)) {
+                            _context4.next = 6;
+                            break;
+                        }
+
+                        data.confirm_password_error = 'Please input same password';
+                        data.confirm_password_autofocus = 'autofocus';
+                        registerWithData(ctx, data);
+                        return _context4.abrupt('return');
+
+                    case 6:
                         options = {
                             url: _url2.default.resolve(_config2.default.api_address, '/register'),
                             json: true,
                             body: data
                         };
                         response = null;
-                        _context4.prev = 4;
-                        _context4.next = 7;
+                        _context4.prev = 8;
+                        _context4.next = 11;
                         return request.postAsync(options);
 
-                    case 7:
+                    case 11:
                         response = _context4.sent;
-                        _context4.next = 15;
+                        _context4.next = 19;
                         break;
 
-                    case 10:
-                        _context4.prev = 10;
-                        _context4.t0 = _context4['catch'](4);
+                    case 14:
+                        _context4.prev = 14;
+                        _context4.t0 = _context4['catch'](8);
 
                         data.error = 'Register failed';
                         registerWithData(ctx, data);
                         return _context4.abrupt('return');
 
-                    case 15:
+                    case 19:
                         body = response.body;
 
                         if (response.statusCode == 200) {
@@ -192,12 +209,12 @@ var registerRequest = exports.registerRequest = function () {
                             registerWithData(ctx, data);
                         }
 
-                    case 17:
+                    case 21:
                     case 'end':
                         return _context4.stop();
                 }
             }
-        }, _callee4, this, [[4, 10]]);
+        }, _callee4, this, [[8, 14]]);
     }));
 
     return function registerRequest(_x7, _x8) {
@@ -239,32 +256,30 @@ var resetPasswordRequest = exports.resetPasswordRequest = function () {
                 switch (_context6.prev = _context6.next) {
                     case 0:
                         data = ctx.request.body;
-
-                        debug(data);
                         options = {
                             url: _url2.default.resolve(_config2.default.api_address, '/reset-password'),
                             json: true,
                             body: data
                         };
                         response = null;
-                        _context6.prev = 4;
-                        _context6.next = 7;
+                        _context6.prev = 3;
+                        _context6.next = 6;
                         return request.postAsync(options);
 
-                    case 7:
+                    case 6:
                         response = _context6.sent;
-                        _context6.next = 15;
+                        _context6.next = 14;
                         break;
 
-                    case 10:
-                        _context6.prev = 10;
-                        _context6.t0 = _context6['catch'](4);
+                    case 9:
+                        _context6.prev = 9;
+                        _context6.t0 = _context6['catch'](3);
 
                         data.error = 'Reset password failed';
                         resetPasswordWithData(ctx, data);
                         return _context6.abrupt('return');
 
-                    case 15:
+                    case 14:
                         body = response.body;
 
                         if (response.statusCode == 200) {
@@ -290,12 +305,12 @@ var resetPasswordRequest = exports.resetPasswordRequest = function () {
                             registerWithData(ctx, data);
                         }
 
-                    case 17:
+                    case 16:
                     case 'end':
                         return _context6.stop();
                 }
             }
-        }, _callee6, this, [[4, 10]]);
+        }, _callee6, this, [[3, 9]]);
     }));
 
     return function resetPasswordRequest(_x11, _x12) {
@@ -303,15 +318,21 @@ var resetPasswordRequest = exports.resetPasswordRequest = function () {
     };
 }();
 
-var setMyPassword = exports.setMyPassword = function () {
+var setPassword = exports.setPassword = function () {
     var _ref7 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee7(ctx, next) {
+        var data;
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
             while (1) {
                 switch (_context7.prev = _context7.next) {
                     case 0:
-                        loginWithMessage(ctx, next, null);
+                        data = {
+                            token: ctx.params.token,
+                            password_autofocus: 'autofocus'
+                        };
 
-                    case 1:
+                        setPasswordWithData(ctx, data);
+
+                    case 2:
                     case 'end':
                         return _context7.stop();
                 }
@@ -319,28 +340,94 @@ var setMyPassword = exports.setMyPassword = function () {
         }, _callee7, this);
     }));
 
-    return function setMyPassword(_x13, _x14) {
+    return function setPassword(_x13, _x14) {
         return _ref7.apply(this, arguments);
     };
 }();
 
-var setMyPasswordRequest = exports.setMyPasswordRequest = function () {
+var setPasswordRequest = exports.setPasswordRequest = function () {
     var _ref8 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee8(ctx, next) {
+        var data, options, response, body, error;
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
             while (1) {
                 switch (_context8.prev = _context8.next) {
                     case 0:
-                        loginWithMessage(ctx, next, null);
+                        data = ctx.request.body;
 
-                    case 1:
+                        if (!(data.password && data.password != data.confirm_password)) {
+                            _context8.next = 6;
+                            break;
+                        }
+
+                        data.confirm_password_error = 'Please input same password';
+                        data.confirm_password_autofocus = 'autofocus';
+                        setPasswordWithData(ctx, data);
+                        return _context8.abrupt('return');
+
+                    case 6:
+
+                        data.token = ctx.params.token;
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/set-password/'),
+                            json: true,
+                            body: data
+                        };
+                        response = null;
+                        _context8.prev = 9;
+                        _context8.next = 12;
+                        return request.postAsync(options);
+
+                    case 12:
+                        response = _context8.sent;
+                        _context8.next = 20;
+                        break;
+
+                    case 15:
+                        _context8.prev = 15;
+                        _context8.t0 = _context8['catch'](9);
+
+                        data.error = 'Set password failed';
+                        setPasswordWithData(ctx, data);
+                        return _context8.abrupt('return');
+
+                    case 20:
+                        body = response.body;
+
+                        if (response.statusCode == 200) {
+                            token.saveToken(ctx, body.token);
+                            ctx.redirect('/');
+                        } else {
+                            if (response.statusCode == 422) {
+                                if (body && body.errors && body.errors.length > 0) {
+                                    error = body.errors[0];
+
+                                    if (error.field == 'password') {
+                                        data.password_autofocus = 'autofocus';
+                                        data.password_error = body.message;
+                                    } else if (error.field == 'confirm_password') {
+                                        data.confirm_password_autofocus = 'autofocus';
+                                        data.confirm_password_error = body.message;
+                                    } else {
+                                        data.error = body.message;
+                                    }
+                                } else {
+                                    data.error = body.message;
+                                }
+                            } else {
+                                data.error = 'Set password failed';
+                            }
+                            setPasswordWithData(ctx, data);
+                        }
+
+                    case 22:
                     case 'end':
                         return _context8.stop();
                 }
             }
-        }, _callee8, this);
+        }, _callee8, this, [[9, 15]]);
     }));
 
-    return function setMyPasswordRequest(_x15, _x16) {
+    return function setPasswordRequest(_x15, _x16) {
         return _ref8.apply(this, arguments);
     };
 }();
@@ -355,7 +442,7 @@ var logoutRequest = exports.logoutRequest = function () {
                         theToken = token.getToken(ctx);
 
                         if (!(theToken && theToken.length > 0)) {
-                            _context9.next = 9;
+                            _context9.next = 7;
                             break;
                         }
 
@@ -372,14 +459,11 @@ var logoutRequest = exports.logoutRequest = function () {
                     case 6:
                         response = _context9.sent;
 
-                        debug(response.statusCode);
-                        debug(response.body);
-
-                    case 9:
+                    case 7:
                         ctx.redirect('/');
                         token.clearToken(ctx);
 
-                    case 11:
+                    case 9:
                     case 'end':
                         return _context9.stop();
                 }
@@ -416,10 +500,6 @@ var _token = require('../utils/token');
 
 var token = _interopRequireWildcard(_token);
 
-var _string = require('../utils/string');
-
-var string = _interopRequireWildcard(_string);
-
 var _debug = require('debug');
 
 var _debug2 = _interopRequireDefault(_debug);
@@ -432,11 +512,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Created by Bell on 16/8/16.
- */
-
-var debug = new _debug2.default(_package2.default.name);
+var debug = new _debug2.default(_package2.default.name); /**
+                                                          * Created by Bell on 16/8/16.
+                                                          */
 
 var request = _bluebird2.default.promisifyAll(_request2.default);
 
@@ -455,7 +533,7 @@ function resetPasswordWithData(ctx, data) {
     ctx.body = html;
 }
 
-function setMyPasswordWithData(ctx, data) {
+function setPasswordWithData(ctx, data) {
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/user/set-password'), data);
     ctx.body = html;
 }

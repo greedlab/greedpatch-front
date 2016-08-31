@@ -1,31 +1,358 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
-exports.list = undefined;
+exports.addMemberRequest = exports.setMembers = exports.setInfoRequest = exports.setInfo = exports.createPatchRequest = exports.createPatch = exports.createRequest = exports.create = exports.detail = exports.list = undefined;
 
-var _bluebird = require("bluebird");
+var _bluebird = require('bluebird');
 
-/**
- * Created by Bell on 16/8/29.
- */
+var _bluebird2 = _interopRequireDefault(_bluebird);
 
 var list = exports.list = function () {
-  var _ref = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee(ctx, next) {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
+    var _ref = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee(ctx, next) {
+        var data, bearerToken, options, response, statusCode, body;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        data = {};
+                        bearerToken = token.bearerToken(ctx);
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/my'),
+                            headers: {
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        response = null;
+                        _context.prev = 4;
+                        _context.next = 7;
+                        return request.getAsync(options);
 
-  return function list(_x, _x2) {
-    return _ref.apply(this, arguments);
-  };
+                    case 7:
+                        response = _context.sent;
+                        _context.next = 15;
+                        break;
+
+                    case 10:
+                        _context.prev = 10;
+                        _context.t0 = _context['catch'](4);
+
+                        data.error = 'List projects failed';
+                        listWithData(ctx, data);
+                        return _context.abrupt('return');
+
+                    case 15:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (statusCode == 200) {
+                            listWithData(ctx, JSON.parse(body));
+                        } else if (statusCode == 401) {
+                            ctx.redirect('/login');
+                        } else {
+                            data.error = 'List projects failed';
+                            listWithData(ctx, data);
+                        }
+
+                    case 18:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, this, [[4, 10]]);
+    }));
+
+    return function list(_x, _x2) {
+        return _ref.apply(this, arguments);
+    };
 }();
+
+var detail = exports.detail = function () {
+    var _ref2 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee2(ctx, next) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+                switch (_context2.prev = _context2.next) {
+                    case 0:
+                    case 'end':
+                        return _context2.stop();
+                }
+            }
+        }, _callee2, this);
+    }));
+
+    return function detail(_x3, _x4) {
+        return _ref2.apply(this, arguments);
+    };
+}();
+
+var create = exports.create = function () {
+    var _ref3 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee3(ctx, next) {
+        var data;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        data = {
+                            name_autofocus: 'autofocus'
+                        };
+
+                        createWithData(ctx, data);
+
+                    case 2:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, this);
+    }));
+
+    return function create(_x5, _x6) {
+        return _ref3.apply(this, arguments);
+    };
+}();
+
+var createRequest = exports.createRequest = function () {
+    var _ref4 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee4(ctx, next) {
+        var bearerToken, data, options, response, statusCode, body, error;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+            while (1) {
+                switch (_context4.prev = _context4.next) {
+                    case 0:
+                        bearerToken = token.bearerToken(ctx);
+                        data = ctx.request.body;
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects'),
+                            json: true,
+                            headers: {
+                                contentType: 'application/json',
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            },
+                            body: data
+                        };
+                        response = null;
+                        _context4.prev = 4;
+                        _context4.next = 7;
+                        return request.postAsync(options);
+
+                    case 7:
+                        response = _context4.sent;
+                        _context4.next = 15;
+                        break;
+
+                    case 10:
+                        _context4.prev = 10;
+                        _context4.t0 = _context4['catch'](4);
+
+                        data.error = 'Create project failed';
+                        createWithData(ctx, data);
+                        return _context4.abrupt('return');
+
+                    case 15:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (statusCode == 200 || statusCode == 201) {
+                            ctx.redirect('/projects/' + body._id);
+                        } else if (statusCode == 401) {
+                            ctx.redirect('/login');
+                        } else {
+                            if (statusCode == 422) {
+                                if (body && body.errors && body.errors.length > 0) {
+                                    error = body.errors[0];
+
+                                    if (error.field == 'name') {
+                                        data.name_autofocus = 'autofocus';
+                                        data.name_error = body.message;
+                                    } else {
+                                        data.error = body.message;
+                                    }
+                                } else {
+                                    data.error = body.message;
+                                }
+                            } else {
+                                data.error = 'Create project failed';
+                            }
+                            createWithData(ctx, data);
+                        }
+
+                    case 18:
+                    case 'end':
+                        return _context4.stop();
+                }
+            }
+        }, _callee4, this, [[4, 10]]);
+    }));
+
+    return function createRequest(_x7, _x8) {
+        return _ref4.apply(this, arguments);
+    };
+}();
+
+var createPatch = exports.createPatch = function () {
+    var _ref5 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee5(ctx, next) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+            while (1) {
+                switch (_context5.prev = _context5.next) {
+                    case 0:
+                    case 'end':
+                        return _context5.stop();
+                }
+            }
+        }, _callee5, this);
+    }));
+
+    return function createPatch(_x9, _x10) {
+        return _ref5.apply(this, arguments);
+    };
+}();
+
+var createPatchRequest = exports.createPatchRequest = function () {
+    var _ref6 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee6(ctx, next) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+            while (1) {
+                switch (_context6.prev = _context6.next) {
+                    case 0:
+                    case 'end':
+                        return _context6.stop();
+                }
+            }
+        }, _callee6, this);
+    }));
+
+    return function createPatchRequest(_x11, _x12) {
+        return _ref6.apply(this, arguments);
+    };
+}();
+
+var setInfo = exports.setInfo = function () {
+    var _ref7 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee7(ctx, next) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+            while (1) {
+                switch (_context7.prev = _context7.next) {
+                    case 0:
+                    case 'end':
+                        return _context7.stop();
+                }
+            }
+        }, _callee7, this);
+    }));
+
+    return function setInfo(_x13, _x14) {
+        return _ref7.apply(this, arguments);
+    };
+}();
+
+var setInfoRequest = exports.setInfoRequest = function () {
+    var _ref8 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee8(ctx, next) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+            while (1) {
+                switch (_context8.prev = _context8.next) {
+                    case 0:
+                    case 'end':
+                        return _context8.stop();
+                }
+            }
+        }, _callee8, this);
+    }));
+
+    return function setInfoRequest(_x15, _x16) {
+        return _ref8.apply(this, arguments);
+    };
+}();
+
+var setMembers = exports.setMembers = function () {
+    var _ref9 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee9(ctx, next) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+            while (1) {
+                switch (_context9.prev = _context9.next) {
+                    case 0:
+                    case 'end':
+                        return _context9.stop();
+                }
+            }
+        }, _callee9, this);
+    }));
+
+    return function setMembers(_x17, _x18) {
+        return _ref9.apply(this, arguments);
+    };
+}();
+
+var addMemberRequest = exports.addMemberRequest = function () {
+    var _ref10 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee10(ctx, next) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+            while (1) {
+                switch (_context10.prev = _context10.next) {
+                    case 0:
+                    case 'end':
+                        return _context10.stop();
+                }
+            }
+        }, _callee10, this);
+    }));
+
+    return function addMemberRequest(_x19, _x20) {
+        return _ref10.apply(this, arguments);
+    };
+}();
+
+var _artTemplate = require('art-template');
+
+var _artTemplate2 = _interopRequireDefault(_artTemplate);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+var _url = require('url');
+
+var _url2 = _interopRequireDefault(_url);
+
+var _request = require('request');
+
+var _request2 = _interopRequireDefault(_request);
+
+var _config = require('../config');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _token = require('../utils/token');
+
+var token = _interopRequireWildcard(_token);
+
+var _debug = require('debug');
+
+var _debug2 = _interopRequireDefault(_debug);
+
+var _package = require('../../package.json');
+
+var _package2 = _interopRequireDefault(_package);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var debug = new _debug2.default(_package2.default.name); /**
+                                                          * Created by Bell on 16/8/29.
+                                                          */
+
+var request = _bluebird2.default.promisifyAll(_request2.default);
+
+function listWithData(ctx, data) {
+    var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/list'), data);
+    ctx.body = html;
+}
+
+function createWithData(ctx, data) {
+    var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new'), data);
+    ctx.body = html;
+}
+
+function createWithData(ctx, data) {
+    var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new'), data);
+    ctx.body = html;
+}
 //# sourceMappingURL=project.js.map
