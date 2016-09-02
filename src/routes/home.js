@@ -4,6 +4,7 @@
 
 import Router from 'koa-router';
 
+import { ensureToken } from '../utils/token';
 import * as project from '../controllers/project';
 import * as user from '../controllers/user';
 
@@ -11,7 +12,7 @@ const base_url = '/';
 let router = new Router();
 
 router
-    .get('/', project.list)
+    .get('/', ensureToken, project.list)
     .get('/login', user.login)
     .post('/login', user.loginRequest)
     .get('/register', user.register)

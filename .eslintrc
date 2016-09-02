@@ -17,6 +17,9 @@
 
     // Map from global var to bool specifying if it can be redefined
     "globals": {
+        "$": true,
+        "jQuery": true,
+        "FormData": true,
         "React": true,
         "ReactDOM": true,
         "__DEV__": true,

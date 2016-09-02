@@ -8,6 +8,8 @@ var _koaRouter = require('koa-router');
 
 var _koaRouter2 = _interopRequireDefault(_koaRouter);
 
+var _token = require('../utils/token');
+
 var _project = require('../controllers/project');
 
 var project = _interopRequireWildcard(_project);
@@ -20,13 +22,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var base_url = '/'; /**
-                     * Created by Bell on 16/8/16.
-                     */
+/**
+ * Created by Bell on 16/8/16.
+ */
 
+var base_url = '/';
 var router = new _koaRouter2.default();
 
-router.get('/', project.list).get('/login', user.login).post('/login', user.loginRequest).get('/register', user.register).post('/register', user.registerRequest).get('/reset-password', user.resetPassword).post('/reset-password', user.resetPasswordRequest).get('/set-password/:token', user.setPassword).post('/set-password/:token', user.setPasswordRequest).post('/logout', user.logoutRequest);
+router.get('/', _token.ensureToken, project.list).get('/login', user.login).post('/login', user.loginRequest).get('/register', user.register).post('/register', user.registerRequest).get('/reset-password', user.resetPassword).post('/reset-password', user.resetPasswordRequest).get('/set-password/:token', user.setPassword).post('/set-password/:token', user.setPasswordRequest).post('/logout', user.logoutRequest);
 
 exports.default = {
     baseUrl: base_url,

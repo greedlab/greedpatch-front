@@ -71,7 +71,8 @@ var loginRequest = exports.loginRequest = function () {
                         body = response.body;
 
                         if (statusCode == 200) {
-                            token.saveToken(ctx, body.token);
+                            cookie.setToken(ctx, body.token);
+                            cookie.setRole(ctx, body.user.role);
                             ctx.redirect('/');
                         } else {
                             if (statusCode == 401) {
@@ -184,7 +185,8 @@ var registerRequest = exports.registerRequest = function () {
                         body = response.body;
 
                         if (response.statusCode == 200) {
-                            token.saveToken(ctx, response.body.token);
+                            cookie.setToken(ctx, response.body.token);
+                            cookie.setRole(ctx, body.user.role);
                             ctx.redirect('/');
                         } else {
                             if (response.statusCode == 422) {
@@ -394,8 +396,7 @@ var setPasswordRequest = exports.setPasswordRequest = function () {
                         body = response.body;
 
                         if (response.statusCode == 200) {
-                            token.saveToken(ctx, body.token);
-                            ctx.redirect('/');
+                            ctx.redirect('/login');
                         } else {
                             if (response.statusCode == 422) {
                                 if (body && body.errors && body.errors.length > 0) {
@@ -439,10 +440,10 @@ var logoutRequest = exports.logoutRequest = function () {
             while (1) {
                 switch (_context9.prev = _context9.next) {
                     case 0:
-                        theToken = token.getToken(ctx);
+                        theToken = cookie.getToken(ctx);
 
                         if (!(theToken && theToken.length > 0)) {
-                            _context9.next = 7;
+                            _context9.next = 8;
                             break;
                         }
 
@@ -459,9 +460,10 @@ var logoutRequest = exports.logoutRequest = function () {
                     case 6:
                         response = _context9.sent;
 
-                    case 7:
+                        cookie.clear(ctx);
+
+                    case 8:
                         ctx.redirect('/');
-                        token.clearToken(ctx);
 
                     case 9:
                     case 'end':
@@ -500,6 +502,10 @@ var _token = require('../utils/token');
 
 var token = _interopRequireWildcard(_token);
 
+var _cookie = require('../utils/cookie');
+
+var cookie = _interopRequireWildcard(_cookie);
+
 var _debug = require('debug');
 
 var _debug2 = _interopRequireDefault(_debug);
@@ -512,9 +518,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = new _debug2.default(_package2.default.name); /**
-                                                          * Created by Bell on 16/8/16.
-                                                          */
+/**
+ * Created by Bell on 16/8/16.
+ */
+
+var debug = new _debug2.default(_package2.default.name);
 
 var request = _bluebird2.default.promisifyAll(_request2.default);
 

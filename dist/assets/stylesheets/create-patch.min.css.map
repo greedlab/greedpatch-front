@@ -1,0 +1,1 @@
+{"version":3,"sources":["stylesheets/create-patch.scss"],"names":[],"mappings":"AACA,wBACE,MAAO","file":"stylesheets/create-patch.min.css","sourcesContent":["\n.project-version-select {\n  width: 100px;\n}\n"],"sourceRoot":"/source/"}

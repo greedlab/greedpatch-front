@@ -10,6 +10,7 @@ import bluebird from 'bluebird';
 
 import config from '../config';
 import * as token from '../utils/token';
+import * as cookie from '../utils/cookie';
 
 import Debug from 'debug';
 import pkg from '../../package.json';
@@ -43,7 +44,8 @@ export async function loginRequest(ctx, next) {
     const statusCode = response.statusCode;
     const body = response.body;
     if (statusCode == 200) {
-        token.saveToken(ctx, body.token);
+        cookie.setToken(ctx, body.token);
+        cookie.setRole(ctx, body.user.role);
         ctx.redirect('/');
     } else {
         if (statusCode == 401) {
@@ -102,7 +104,8 @@ export async function registerRequest(ctx, next) {
     }
     const body = response.body;
     if (response.statusCode == 200) {
-        token.saveToken(ctx, response.body.token);
+        cookie.setToken(ctx, response.body.token);
+        cookie.setRole(ctx, body.user.role);
         ctx.redirect('/');
     } else {
         if (response.statusCode == 422) {
@@ -208,8 +211,7 @@ export async function setPasswordRequest(ctx, next) {
     }
     const body = response.body;
     if (response.statusCode == 200) {
-        token.saveToken(ctx, body.token);
-        ctx.redirect('/');
+        ctx.redirect('/login');
     } else {
         if (response.statusCode == 422) {
             if (body && body.errors && body.errors.length > 0) {
@@ -234,7 +236,7 @@ export async function setPasswordRequest(ctx, next) {
 }
 
 export async function logoutRequest(ctx, next) {
-    const theToken = token.getToken(ctx);
+    const theToken = cookie.getToken(ctx);
     if (theToken && theToken.length > 0) {
         const bearerToken = token.bearerToken(theToken);
         const options = {
@@ -244,9 +246,9 @@ export async function logoutRequest(ctx, next) {
             }
         };
         const response = await request.postAsync(options);
+        cookie.clear(ctx);
     }
     ctx.redirect('/');
-    token.clearToken(ctx);
 }
 
 function loginWithData(ctx, data) {

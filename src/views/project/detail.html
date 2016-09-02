@@ -7,5 +7,26 @@
 </head>
 <body>
 
+{{include '../element/main-menu' main_menu}}
+<h1>{{name}}</h1>
+{{include './element/menu' project_menu}}
+<p>{{introduction}}</p>
+<p>bundle id: {{bundle_id}}</p>
+<h2>Patch list</h2>
+<table border="1">
+    <tr>
+        <th>App Version</th>
+        <th>Patch Version</th>
+        <th>Patch File</th>
+    </tr>
+    {{each patches}}
+    <tr>
+        <td>{{$value.project_version}}</td>
+        <td>{{$value.patch_version}}</td>
+        <td><a href={{$value.patch_url}}>{{$value.patch_url}}</a>
+        </td>
+    </tr>
+    {{/each}}
+</table>
 </body>
 </html>

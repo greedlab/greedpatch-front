@@ -16,7 +16,7 @@ router
     .get('/new', ensureToken, controller.create)
     .get('/:id', ensureToken, controller.detail)
     .get('/:id/patches/new', ensureToken, controller.createPatch)
-    .post('/:id/patches/', ensureToken, controller.createPatchRequest)
+    .post('/:id/patches', ensureToken, controller.createPatchRequest)
     .get('/:id/set-info', ensureToken, controller.setInfo)
     .post('/:id/set-info', ensureToken, controller.setInfoRequest)
     .get('/:id/set-members', ensureToken, controller.setMembers)

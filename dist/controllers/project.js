@@ -48,7 +48,8 @@ var list = exports.list = function () {
                         body = response.body;
 
                         if (statusCode == 200) {
-                            listWithData(ctx, JSON.parse(body));
+                            data.projects = JSON.parse(body);
+                            listWithData(ctx, data);
                         } else if (statusCode == 401) {
                             ctx.redirect('/login');
                         } else {
@@ -71,15 +72,138 @@ var list = exports.list = function () {
 
 var detail = exports.detail = function () {
     var _ref2 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee2(ctx, next) {
+        var project_id, data, bearerToken, options, response, statusCode, body, _options, _response, _statusCode, _body;
+
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
             while (1) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
+                        project_id = ctx.params.id;
+                        data = {};
+                        bearerToken = token.bearerToken(ctx);
+
+                        // project menu
+
+                        data.project_menu = {
+                            id: project_id
+                        };
+
+                        // project detail
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id),
+                            headers: {
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        response = null;
+                        _context2.prev = 6;
+                        _context2.next = 9;
+                        return request.getAsync(options);
+
+                    case 9:
+                        response = _context2.sent;
+                        _context2.next = 17;
+                        break;
+
+                    case 12:
+                        _context2.prev = 12;
+                        _context2.t0 = _context2['catch'](6);
+
+                        data.error = 'Get project detail failed';
+                        detailWithData(ctx, data);
+                        return _context2.abrupt('return');
+
+                    case 17:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (!(statusCode == 200)) {
+                            _context2.next = 23;
+                            break;
+                        }
+
+                        data.detail = JSON.parse(body);
+                        _context2.next = 31;
+                        break;
+
+                    case 23:
+                        if (!(statusCode == 401)) {
+                            _context2.next = 28;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context2.abrupt('return');
+
+                    case 28:
+                        data.error = 'Get project detail failed';
+                        detailWithData(ctx, data);
+                        return _context2.abrupt('return');
+
+                    case 31:
+                        _options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id + '/patches'),
+                            headers: {
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        _response = null;
+                        _context2.prev = 33;
+                        _context2.next = 36;
+                        return request.getAsync(_options);
+
+                    case 36:
+                        _response = _context2.sent;
+                        _context2.next = 44;
+                        break;
+
+                    case 39:
+                        _context2.prev = 39;
+                        _context2.t1 = _context2['catch'](33);
+
+                        data.error = 'Get patches failed';
+                        detailWithData(ctx, data);
+                        return _context2.abrupt('return');
+
+                    case 44:
+                        _statusCode = _response.statusCode;
+                        _body = _response.body;
+
+                        if (!(_statusCode == 200)) {
+                            _context2.next = 50;
+                            break;
+                        }
+
+                        data.patches = JSON.parse(_body);
+                        _context2.next = 58;
+                        break;
+
+                    case 50:
+                        if (!(_statusCode == 401)) {
+                            _context2.next = 55;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context2.abrupt('return');
+
+                    case 55:
+                        data.error = 'Get patches failed';
+                        detailWithData(ctx, data);
+                        return _context2.abrupt('return');
+
+                    case 58:
+
+                        detailWithData(ctx, data);
+
+                    case 59:
                     case 'end':
                         return _context2.stop();
                 }
             }
-        }, _callee2, this);
+        }, _callee2, this, [[6, 12], [33, 39]]);
     }));
 
     return function detail(_x3, _x4) {
@@ -122,6 +246,8 @@ var createRequest = exports.createRequest = function () {
                     case 0:
                         bearerToken = token.bearerToken(ctx);
                         data = ctx.request.body;
+
+                        debug(data);
                         options = {
                             url: _url2.default.resolve(_config2.default.api_address, '/projects'),
                             json: true,
@@ -133,24 +259,24 @@ var createRequest = exports.createRequest = function () {
                             body: data
                         };
                         response = null;
-                        _context4.prev = 4;
-                        _context4.next = 7;
+                        _context4.prev = 5;
+                        _context4.next = 8;
                         return request.postAsync(options);
 
-                    case 7:
+                    case 8:
                         response = _context4.sent;
-                        _context4.next = 15;
+                        _context4.next = 16;
                         break;
 
-                    case 10:
-                        _context4.prev = 10;
-                        _context4.t0 = _context4['catch'](4);
+                    case 11:
+                        _context4.prev = 11;
+                        _context4.t0 = _context4['catch'](5);
 
                         data.error = 'Create project failed';
                         createWithData(ctx, data);
                         return _context4.abrupt('return');
 
-                    case 15:
+                    case 16:
                         statusCode = response.statusCode;
                         body = response.body;
 
@@ -178,12 +304,12 @@ var createRequest = exports.createRequest = function () {
                             createWithData(ctx, data);
                         }
 
-                    case 18:
+                    case 19:
                     case 'end':
                         return _context4.stop();
                 }
             }
-        }, _callee4, this, [[4, 10]]);
+        }, _callee4, this, [[5, 11]]);
     }));
 
     return function createRequest(_x7, _x8) {
@@ -193,10 +319,30 @@ var createRequest = exports.createRequest = function () {
 
 var createPatch = exports.createPatch = function () {
     var _ref5 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee5(ctx, next) {
+        var project_id, data, project_versions;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
             while (1) {
                 switch (_context5.prev = _context5.next) {
                     case 0:
+                        project_id = ctx.params.id;
+                        data = {};
+
+                        // project menu
+
+                        data.project_menu = {
+                            id: project_id
+                        };
+
+                        // project versions
+                        project_versions = ['1.0', '1.1'];
+
+                        data.project_versions = project_versions;
+                        data.project_versions_size = Math.min(5, project_versions.length);
+
+                        data.id = project_id;
+                        createPatchWithData(ctx, data);
+
+                    case 8:
                     case 'end':
                         return _context5.stop();
                 }
@@ -211,15 +357,95 @@ var createPatch = exports.createPatch = function () {
 
 var createPatchRequest = exports.createPatchRequest = function () {
     var _ref6 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee6(ctx, next) {
+        var project_id, bearerToken, data, options, response, statusCode, body, error;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
             while (1) {
                 switch (_context6.prev = _context6.next) {
                     case 0:
+                        project_id = ctx.params.id;
+                        bearerToken = token.bearerToken(ctx);
+                        data = ctx.request.body;
+
+                        debug(data);
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id + '/patches'),
+                            json: true,
+                            headers: {
+                                contentType: _config2.default.content_type,
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            },
+                            body: data
+                        };
+                        response = null;
+                        _context6.prev = 6;
+                        _context6.next = 9;
+                        return request.postAsync(options);
+
+                    case 9:
+                        response = _context6.sent;
+                        _context6.next = 17;
+                        break;
+
+                    case 12:
+                        _context6.prev = 12;
+                        _context6.t0 = _context6['catch'](6);
+
+                        data.error = 'Create patch failed';
+                        createPatchWithData(ctx, data);
+                        return _context6.abrupt('return');
+
+                    case 17:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (statusCode == 200 || statusCode == 201) {
+                            ctx.redirect('/projects/' + project_id);
+                        } else if (statusCode == 401) {
+                            ctx.redirect('/login');
+                        } else {
+                            if (statusCode == 422) {
+                                if (body && body.errors && body.errors.length > 0) {
+                                    error = body.errors[0];
+
+                                    if (error.field == 'project_version') {
+                                        data.project_version_autofocus = 'autofocus';
+                                        data.project_version_error = body.message;
+                                    } else if (error.field == 'patch_version') {
+                                        data.patch_version_autofocus = 'autofocus';
+                                        data.patch_version_error = body.message;
+                                    } else if (error.field == 'hash') {
+                                        data.hash_autofocus = 'autofocus';
+                                        data.hash_error = body.message;
+                                    } else if (error.field == 'patch_url') {
+                                        data.patch_url_autofocus = 'autofocus';
+                                        data.patch_url_error = body.message;
+                                    } else {
+                                        data.error = body.message;
+                                    }
+                                } else {
+                                    data.error = body.message;
+                                }
+                            } else {
+                                data.error = 'Create patch failed';
+                            }
+                            createWithData(ctx, data);
+                        }
+
+                        // project menu
+                        data.project_menu = {
+                            id: project_id
+                        };
+
+                        data.id = project_id;
+                        createPatchWithData(ctx, data);
+
+                    case 23:
                     case 'end':
                         return _context6.stop();
                 }
             }
-        }, _callee6, this);
+        }, _callee6, this, [[6, 12]]);
     }));
 
     return function createPatchRequest(_x11, _x12) {
@@ -323,6 +549,10 @@ var _token = require('../utils/token');
 
 var token = _interopRequireWildcard(_token);
 
+var _cookie = require('../utils/cookie');
+
+var cookie = _interopRequireWildcard(_cookie);
+
 var _debug = require('debug');
 
 var _debug2 = _interopRequireDefault(_debug);
@@ -335,24 +565,64 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = new _debug2.default(_package2.default.name); /**
-                                                          * Created by Bell on 16/8/29.
-                                                          */
+/**
+ * Created by Bell on 16/8/29.
+ */
+
+var debug = new _debug2.default(_package2.default.name);
 
 var request = _bluebird2.default.promisifyAll(_request2.default);
 
 function listWithData(ctx, data) {
+    var role = cookie.getRole(ctx);
+    if (role === 1) {
+        data.main_menu = {
+            admin: 1
+        };
+    }
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/list'), data);
     ctx.body = html;
 }
 
 function createWithData(ctx, data) {
+    var role = cookie.getRole(ctx);
+    if (role === 1) {
+        data.main_menu = {
+            admin: 1
+        };
+    }
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new'), data);
     ctx.body = html;
 }
 
-function createWithData(ctx, data) {
-    var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new'), data);
+/**
+ * render project detail
+ *
+ * @param ctx
+ * @param detail {object}
+ * @param projects {array}
+ * @param error {string}
+ */
+function detailWithData(ctx, data) {
+    debug(data);
+    var role = cookie.getRole(ctx);
+    if (role === 1) {
+        data.main_menu = {
+            admin: 1
+        };
+    }
+    var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/detail'), data);
+    ctx.body = html;
+}
+
+function createPatchWithData(ctx, data) {
+    var role = cookie.getRole(ctx);
+    if (role === 1) {
+        data.main_menu = {
+            admin: 1
+        };
+    }
+    var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new-patch'), data);
     ctx.body = html;
 }
 //# sourceMappingURL=project.js.map

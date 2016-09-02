@@ -3,9 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" href="/stylesheets/create-patch.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <title>Title</title>
 </head>
 <body>
 
+<div class="content">
+    {{include '../element/main-menu' main_menu}}
+    <h1>{{name}}</h1>
+    {{include './element/menu' project_menu}}
+    <h2>Create patch</h2>
+    <p class="error-message">{{error}}</p>
+    <form action="/projects/{{id}}/patches" method="post">
+        <div>
+            <label for="project_version">Project version</label>
+            <input id="project_version" name="project_version" {{project_version_autofocus}} tabindex="1" type="text"
+                   list="project_versions"
+                   placeholder="Input project version" value="{{project_version}}">
+            <datalist id="project_versions">
+                {{each project_versions}}
+                <option value={{$value}}>
+                    {{/each}}
+            </datalist>
+            <p class="error-message">{{project_version_error}}</p>
+        </div>
+
+        <div>
+            <label for="patch-version">Patch version</label>
+            <input id="patch-version" name="patch_version" {{patch_version_autofocus}} tabindex="2" type="text"
+                   placeholder="Input patch version" value="{{patch_version}}">
+            <p class="error-message">{{patch_version_error}}</p>
+        </div>
+        <div>
+            <label for="hash">Hash</label>
+            <input id="hash" name="hash" {{hash_autofocus}} tabindex="3" type="text"
+                   placeholder="Input hash of the patch file" value="{{hash}}">
+            <p class="error-message">{{hash_error}}</p>
+        </div>
+        <div>
+            <label for="patch-url">Patch URL</label>
+            <input id="patch-url" name="patch_url" {{patch_url_autofocus}} tabindex="3" type="text"
+                   placeholder="Input hash of the patch file" value="{{patch_url}}">
+            <p class="error-message">{{patch_url_error}}</p>
+
+            <p>上传文件： <input id="patch-file" type="file"/></p>
+            <input type="button" value="upload" onclick="uploadFile()"/>
+            <p class="error-message" id="upload-error">{{upload_error}}</p>
+
+            <div>
+                <progress id="progress-bar" value="0" max="100"></progress>
+            </div>
+        </div>
+        <input tabindex="4" type="submit" value="Create">
+    </form>
+</div>
+
+<script src="/javascripts/cookie.js"></script>
+<script src="/javascripts/create-patch.js"></script>
 </body>
 </html>
