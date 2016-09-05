@@ -2,31 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
     <title>Title</title>
 </head>
 <body>
 
-{{include '../element/main-menu' main_menu}}
-<h1>{{name}}</h1>
-{{include './element/menu' project_menu}}
-<p>{{introduction}}</p>
-<p>bundle id: {{bundle_id}}</p>
-<h2>Patch list</h2>
-<table border="1">
-    <tr>
-        <th>App Version</th>
-        <th>Patch Version</th>
-        <th>Patch File</th>
-    </tr>
-    {{each patches}}
-    <tr>
-        <td>{{$value.project_version}}</td>
-        <td>{{$value.patch_version}}</td>
-        <td><a href={{$value.patch_url}}>{{$value.patch_url}}</a>
-        </td>
-    </tr>
-    {{/each}}
-</table>
+<div class="content">
+    {{include '../element/main-menu' main_menu}}
+    <h1>{{name}}</h1>
+    {{include './element/menu' project_menu}}
+    <p>{{introduction}}</p>
+    <p>bundle id: {{bundle_id}}</p>
+    <h2>Patch list</h2>
+    <table border="1">
+        <tr>
+            <th>App Version</th>
+            <th>Patch Version</th>
+            <th>Patch File</th>
+        </tr>
+        {{each patches}}
+        <tr>
+            <td>{{$value.project_version}}</td>
+            <td>{{$value.patch_version}}</td>
+            <td><a href={{$value.patch_url}}>{{$value.patch_url}}</a>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>
 </body>
 </html>

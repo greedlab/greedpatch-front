@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
     <title>Add Project</title>
 </head>
 <body>
@@ -16,7 +16,9 @@
         <div>
             <label for="name">Project Name</label>
             <input id="name" name="name" {{name_autofocus}} tabindex="1" type="text" placeholder="input the name of the project" value="{{name}}">
+            {{if name_error}}
             <p class="error-message">{{name_error}}</p>
+            {{/if}}
         </div>
         <div>
             <label for="bundle_id">Bundle ID</label>

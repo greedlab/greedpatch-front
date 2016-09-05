@@ -24,7 +24,7 @@ var base_url = '/projects'; /**
 
 var router = new _koaRouter2.default({ prefix: base_url });
 
-router.get('/', _token.ensureToken, controller.list).post('/', _token.ensureToken, controller.createRequest).get('/new', _token.ensureToken, controller.create).get('/:id', _token.ensureToken, controller.detail).get('/:id/patches/new', _token.ensureToken, controller.createPatch).post('/:id/patches', _token.ensureToken, controller.createPatchRequest).get('/:id/set-info', _token.ensureToken, controller.setInfo).post('/:id/set-info', _token.ensureToken, controller.setInfoRequest).get('/:id/set-members', _token.ensureToken, controller.setMembers).post('/:id/add-member', _token.ensureToken, controller.addMemberRequest);
+router.get('/', _token.ensureToken, controller.list).post('/', _token.ensureToken, controller.createRequest).get('/new', _token.ensureToken, controller.create).get('/:id', _token.ensureToken, controller.detail).get('/:id/patches/new', _token.ensureToken, controller.createPatch).post('/:id/patches/new', _token.ensureToken, controller.createPatchRequest).get('/:id/set-info', _token.ensureToken, controller.setInfo).post('/:id/set-info', _token.ensureToken, controller.setInfoRequest).get('/:id/set-members', _token.ensureToken, controller.setMembers).post('/:id/add-member', _token.ensureToken, controller.addMemberRequest);
 
 exports.default = {
     baseUrl: base_url,

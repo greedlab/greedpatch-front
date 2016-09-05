@@ -184,21 +184,23 @@ export async function createRequest(ctx, next) {
     }
 }
 
+
 export async function createPatch(ctx, next) {
-    const project_id = ctx.params.id;
     let data = {};
+    const project_id = ctx.params.id;
+    data.id = project_id;
+
+    // project versions
+    const version_object = await getProjectVewsions(ctx);
+    if (version_object) {
+        data.project_versions = version_object.versions;
+    }
 
     // project menu
     data.project_menu = {
         id: project_id
     };
 
-    // project versions
-    let project_versions = ['1.0', '1.1'];
-    data.project_versions = project_versions;
-    data.project_versions_size = Math.min(5, project_versions.length);
-
-    data.id = project_id;
     createPatchWithData(ctx, data);
 }
 
@@ -270,7 +272,80 @@ export async function createPatchRequest(ctx, next) {
 }
 
 export async function setInfo(ctx, next) {
+    const project_id = ctx.params.id;
+    let data = {};
+    const bearerToken = token.bearerToken(ctx);
 
+    // project menu
+    data.project_menu = {
+        id: project_id
+    };
+
+    // project detail
+    {
+        const options = {
+            url: url.resolve(config.api_address, '/projects/' + project_id),
+            headers: {
+                Authorization: bearerToken,
+                Accept: config.accept
+            }
+        };
+        let response = null;
+        try {
+            response = await request.getAsync(options);
+        } catch (err) {
+            data.error = 'Get project detail failed';
+            setInfoWithData(ctx, data);
+            return;
+        }
+
+        const statusCode = response.statusCode;
+        const body = response.body;
+        if (statusCode == 200) {
+            data.detail = JSON.parse(body);
+        } else if (statusCode == 401) {
+            ctx.redirect('/login');
+            return;
+        } else {
+            data.error = 'Get project detail failed';
+            setInfoWithData(ctx, data);
+            return;
+        }
+    }
+
+    // patches list
+    {
+        const options = {
+            url: url.resolve(config.api_address, '/projects/' + project_id + '/patches'),
+            headers: {
+                Authorization: bearerToken,
+                Accept: config.accept
+            }
+        };
+        let response = null;
+        try {
+            response = await request.getAsync(options);
+        } catch (err) {
+            data.error = 'Get patches failed';
+            setInfoWithData(ctx, data);
+            return;
+        }
+
+        const statusCode = response.statusCode;
+        const body = response.body;
+        if (statusCode == 200) {
+            data.patches = JSON.parse(body);
+        } else if (statusCode == 401) {
+            ctx.redirect('/login');
+            return;
+        } else {
+            data.error = 'Get patches failed';
+            setInfoWithData(ctx, data);
+            return;
+        }
+    }
+
+    setInfoWithData(ctx, data);
 }
 
 export async function setInfoRequest(ctx, next) {
@@ -334,6 +409,36 @@ function createPatchWithData(ctx, data) {
             admin: 1
         };
     }
+    debug(data);
     let html = template(path.join(__dirname, '../views/project/new-patch'), data);
     ctx.body = html;
+}
+
+async function getProjectVewsions(ctx) {
+    const project_id = ctx.params.id;
+
+    const bearerToken = token.bearerToken(ctx);
+    const options = {
+        url: url.resolve(config.api_address, '/projects/' + project_id + '/versions'),
+        headers: {
+            contentType: 'application/json',
+            Authorization: bearerToken,
+            Accept: config.accept
+        }
+    };
+    let response = null;
+    try {
+        response = await request.getAsync(options);
+    } catch (err) {
+        return null;
+    }
+
+    const statusCode = response.statusCode;
+    const body = response.body;
+    if (statusCode >= 200 && statusCode < 300) {
+        return JSON.parse(body);
+    } else if (statusCode == 401) {
+        ctx.redirect('/login');
+    }
+    return null;
 }

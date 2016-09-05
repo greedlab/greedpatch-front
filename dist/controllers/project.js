@@ -319,30 +319,35 @@ var createRequest = exports.createRequest = function () {
 
 var createPatch = exports.createPatch = function () {
     var _ref5 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee5(ctx, next) {
-        var project_id, data, project_versions;
+        var data, project_id, version_object;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
             while (1) {
                 switch (_context5.prev = _context5.next) {
                     case 0:
-                        project_id = ctx.params.id;
                         data = {};
+                        project_id = ctx.params.id;
+
+                        data.id = project_id;
+
+                        // project versions
+                        _context5.next = 5;
+                        return getProjectVewsions(ctx);
+
+                    case 5:
+                        version_object = _context5.sent;
+
+                        if (version_object) {
+                            data.project_versions = version_object.versions;
+                        }
 
                         // project menu
-
                         data.project_menu = {
                             id: project_id
                         };
 
-                        // project versions
-                        project_versions = ['1.0', '1.1'];
-
-                        data.project_versions = project_versions;
-                        data.project_versions_size = Math.min(5, project_versions.length);
-
-                        data.id = project_id;
                         createPatchWithData(ctx, data);
 
-                    case 8:
+                    case 9:
                     case 'end':
                         return _context5.stop();
                 }
@@ -455,15 +460,138 @@ var createPatchRequest = exports.createPatchRequest = function () {
 
 var setInfo = exports.setInfo = function () {
     var _ref7 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee7(ctx, next) {
+        var project_id, data, bearerToken, options, response, statusCode, body, _options2, _response2, _statusCode2, _body2;
+
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
             while (1) {
                 switch (_context7.prev = _context7.next) {
                     case 0:
+                        project_id = ctx.params.id;
+                        data = {};
+                        bearerToken = token.bearerToken(ctx);
+
+                        // project menu
+
+                        data.project_menu = {
+                            id: project_id
+                        };
+
+                        // project detail
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id),
+                            headers: {
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        response = null;
+                        _context7.prev = 6;
+                        _context7.next = 9;
+                        return request.getAsync(options);
+
+                    case 9:
+                        response = _context7.sent;
+                        _context7.next = 17;
+                        break;
+
+                    case 12:
+                        _context7.prev = 12;
+                        _context7.t0 = _context7['catch'](6);
+
+                        data.error = 'Get project detail failed';
+                        setInfoWithData(ctx, data);
+                        return _context7.abrupt('return');
+
+                    case 17:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (!(statusCode == 200)) {
+                            _context7.next = 23;
+                            break;
+                        }
+
+                        data.detail = JSON.parse(body);
+                        _context7.next = 31;
+                        break;
+
+                    case 23:
+                        if (!(statusCode == 401)) {
+                            _context7.next = 28;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context7.abrupt('return');
+
+                    case 28:
+                        data.error = 'Get project detail failed';
+                        setInfoWithData(ctx, data);
+                        return _context7.abrupt('return');
+
+                    case 31:
+                        _options2 = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id + '/patches'),
+                            headers: {
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        _response2 = null;
+                        _context7.prev = 33;
+                        _context7.next = 36;
+                        return request.getAsync(_options2);
+
+                    case 36:
+                        _response2 = _context7.sent;
+                        _context7.next = 44;
+                        break;
+
+                    case 39:
+                        _context7.prev = 39;
+                        _context7.t1 = _context7['catch'](33);
+
+                        data.error = 'Get patches failed';
+                        setInfoWithData(ctx, data);
+                        return _context7.abrupt('return');
+
+                    case 44:
+                        _statusCode2 = _response2.statusCode;
+                        _body2 = _response2.body;
+
+                        if (!(_statusCode2 == 200)) {
+                            _context7.next = 50;
+                            break;
+                        }
+
+                        data.patches = JSON.parse(_body2);
+                        _context7.next = 58;
+                        break;
+
+                    case 50:
+                        if (!(_statusCode2 == 401)) {
+                            _context7.next = 55;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context7.abrupt('return');
+
+                    case 55:
+                        data.error = 'Get patches failed';
+                        setInfoWithData(ctx, data);
+                        return _context7.abrupt('return');
+
+                    case 58:
+
+                        setInfoWithData(ctx, data);
+
+                    case 59:
                     case 'end':
                         return _context7.stop();
                 }
             }
-        }, _callee7, this);
+        }, _callee7, this, [[6, 12], [33, 39]]);
     }));
 
     return function setInfo(_x13, _x14) {
@@ -522,6 +650,70 @@ var addMemberRequest = exports.addMemberRequest = function () {
 
     return function addMemberRequest(_x19, _x20) {
         return _ref10.apply(this, arguments);
+    };
+}();
+
+var getProjectVewsions = function () {
+    var _ref11 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee11(ctx) {
+        var project_id, bearerToken, options, response, statusCode, body;
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+            while (1) {
+                switch (_context11.prev = _context11.next) {
+                    case 0:
+                        project_id = ctx.params.id;
+                        bearerToken = token.bearerToken(ctx);
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id + '/versions'),
+                            headers: {
+                                contentType: 'application/json',
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        response = null;
+                        _context11.prev = 4;
+                        _context11.next = 7;
+                        return request.getAsync(options);
+
+                    case 7:
+                        response = _context11.sent;
+                        _context11.next = 13;
+                        break;
+
+                    case 10:
+                        _context11.prev = 10;
+                        _context11.t0 = _context11['catch'](4);
+                        return _context11.abrupt('return', null);
+
+                    case 13:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (!(statusCode >= 200 && statusCode < 300)) {
+                            _context11.next = 19;
+                            break;
+                        }
+
+                        return _context11.abrupt('return', JSON.parse(body));
+
+                    case 19:
+                        if (statusCode == 401) {
+                            ctx.redirect('/login');
+                        }
+
+                    case 20:
+                        return _context11.abrupt('return', null);
+
+                    case 21:
+                    case 'end':
+                        return _context11.stop();
+                }
+            }
+        }, _callee11, this, [[4, 10]]);
+    }));
+
+    return function getProjectVewsions(_x21) {
+        return _ref11.apply(this, arguments);
     };
 }();
 
@@ -622,6 +814,7 @@ function createPatchWithData(ctx, data) {
             admin: 1
         };
     }
+    debug(data);
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new-patch'), data);
     ctx.body = html;
 }

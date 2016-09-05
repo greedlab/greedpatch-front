@@ -1,0 +1,1 @@
+{"version":3,"file":"js/book.jsx","sources":["js/book.jsx"],"names":[],"mappings":"AAAA,QAAQ,CAAC,MAAM;IACX,oBAAA,IAAG,EAAA,IAAC,EAAA,cAAiB,CAAA;IACrB,QAAQ,CAAC,cAAc,CAAC,WAAW,CAAC;CACvC,CAAC","sourceRoot":"/source/","sourcesContent":["ReactDOM.render(\n    <h2> test react </h2>,\n    document.getElementById('testReact')\n);\n"]}
