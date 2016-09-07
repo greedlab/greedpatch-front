@@ -1,7 +1,12 @@
 h1 {
   color: #1875e7; }
 
+.main-menu {
+  min-width: 640px;
+  text-align: center; }
+
 .content {
+  min-width: 640px;
   text-align: center; }
 
 .error-message {

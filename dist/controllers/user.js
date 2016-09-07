@@ -72,7 +72,8 @@ var loginRequest = exports.loginRequest = function () {
 
                         if (statusCode == 200) {
                             cookie.setToken(ctx, body.token);
-                            cookie.setRole(ctx, body.user.role);
+                            cookie.setUserRole(ctx, body.user.role);
+                            cookie.setUserEmail(ctx, body.user.email);
                             ctx.redirect('/');
                         } else {
                             if (statusCode == 401) {
@@ -186,7 +187,8 @@ var registerRequest = exports.registerRequest = function () {
 
                         if (response.statusCode == 200) {
                             cookie.setToken(ctx, response.body.token);
-                            cookie.setRole(ctx, body.user.role);
+                            cookie.setUserRole(ctx, body.user.role);
+                            cookie.setUserEmail(ctx, body.user.email);
                             ctx.redirect('/');
                         } else {
                             if (response.statusCode == 422) {
@@ -447,7 +449,7 @@ var logoutRequest = exports.logoutRequest = function () {
                             break;
                         }
 
-                        bearerToken = token.bearerToken(theToken);
+                        bearerToken = token.bearerTokenFromToken(theToken);
                         options = {
                             url: _url2.default.resolve(_config2.default.api_address, '/logout'),
                             headers: {

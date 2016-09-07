@@ -1,0 +1,21 @@
+<div class="project-set-content">
+    <p class="error-message">{{error}}</p>
+    <form action="/projects/{{_id}}/set-info" method="post">
+        <div>
+            <label for="name">Project name</label>
+            <input id="name" name="name" {{name_autofocus}} tabindex="1" type="text" placeholder="input the name of the project" value="{{name}}">
+            {{if name_error}}
+            <p class="error-message">{{name_error}}</p>
+            {{/if}}
+        </div>
+        <div>
+            <label for="bundle_id">Bundle ID</label>
+            <input id="bundle_id" name="bundle_id" {{bundle_id_autofocus}} tabindex="2" type="text" placeholder="input the Identity  of the project" value="{{bundle_id}}">
+        </div>
+        <div>
+            <label for="introduction">Introduction</label>
+            <input id="introduction" name="introduction" {{introduction_autofocus}} tabindex="3" type ="text" placeholder="Input the introduction of the project" value="{{introduction}}">
+        </div>
+        <input tabindex="4" type="submit" value="Modify">
+    </form>
+</div>

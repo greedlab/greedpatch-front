@@ -6,21 +6,25 @@ Object.defineProperty(exports, "__esModule", {
 exports.setToken = setToken;
 exports.getToken = getToken;
 exports.clearToken = clearToken;
-exports.setRole = setRole;
-exports.getRole = getRole;
-exports.clearRole = clearRole;
+exports.setUserRole = setUserRole;
+exports.getUserRole = getUserRole;
+exports.clearUserRole = clearUserRole;
+exports.setUserEmail = setUserEmail;
+exports.getUserEmail = getUserEmail;
+exports.clearUserEmail = clearUserEmail;
 exports.clear = clear;
 /**
  * Created by Bell on 16/9/1.
  */
 
 var token_key = 'token';
-var role_key = 'role';
+var user_role_key = 'user_role';
+var user_email_key = 'user_email';
 
 function setToken(ctx, token) {
     ctx.cookies.set(token_key, token, {
         signed: true,
-        httpOnly: false,
+        httpOnly: true,
         maxAge: maxAge()
     });
 }
@@ -37,29 +41,45 @@ function clearToken(ctx) {
     });
 }
 
-function setRole(ctx, token) {
-    ctx.cookies.set(role_key, token, {
+function setUserRole(ctx, token) {
+    ctx.cookies.set(user_role_key, token, {
         signed: true,
-        httpOnly: false,
+        httpOnly: true,
         maxAge: maxAge()
     });
 }
 
-function getRole(ctx) {
-    return ctx.cookies.get(role_key, {
+function getUserRole(ctx) {
+    return ctx.cookies.get(user_role_key, {
         signed: true
     });
 }
 
-function clearRole(ctx) {
-    ctx.cookies.set(role_key, null, {
+function clearUserRole(ctx) {
+    ctx.cookies.set(user_role_key, null, {
         signed: true
     });
+}
+
+function setUserEmail(ctx, token) {
+    ctx.cookies.set(user_email_key, token, {
+        httpOnly: true,
+        maxAge: maxAge()
+    });
+}
+
+function getUserEmail(ctx) {
+    return ctx.cookies.get(user_email_key);
+}
+
+function clearUserEmail(ctx) {
+    ctx.cookies.set(user_email_key, null);
 }
 
 function clear(ctx) {
     clearToken(ctx);
-    clearRole(ctx);
+    clearUserRole(ctx);
+    clearUserEmail(ctx);
 }
 
 function maxAge() {

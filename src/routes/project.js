@@ -17,10 +17,11 @@ router
     .get('/:id', ensureToken, controller.detail)
     .get('/:id/patches/new', ensureToken, controller.createPatch)
     .post('/:id/patches/new', ensureToken, controller.createPatchRequest)
-    .get('/:id/set-info', ensureToken, controller.setInfo)
-    .post('/:id/set-info', ensureToken, controller.setInfoRequest)
-    .get('/:id/set-members', ensureToken, controller.setMembers)
-    .post('/:id/add-member', ensureToken, controller.addMemberRequest);
+    .get('/:id/info', ensureToken, controller.setInfo)
+    .post('/:id/info', ensureToken, controller.setInfoRequest)
+    .get('/:id/members', ensureToken, controller.setMembers)
+    .post('/:id/members', ensureToken, controller.addMemberRequest)
+    .delete('/:id/members/:member_id', ensureToken, controller.deleteMemberRequest);
 
 export default {
     baseUrl: base_url,

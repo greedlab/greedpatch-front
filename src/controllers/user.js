@@ -45,7 +45,8 @@ export async function loginRequest(ctx, next) {
     const body = response.body;
     if (statusCode == 200) {
         cookie.setToken(ctx, body.token);
-        cookie.setRole(ctx, body.user.role);
+        cookie.setUserRole(ctx, body.user.role);
+        cookie.setUserEmail(ctx, body.user.email);
         ctx.redirect('/');
     } else {
         if (statusCode == 401) {
@@ -105,7 +106,8 @@ export async function registerRequest(ctx, next) {
     const body = response.body;
     if (response.statusCode == 200) {
         cookie.setToken(ctx, response.body.token);
-        cookie.setRole(ctx, body.user.role);
+        cookie.setUserRole(ctx, body.user.role);
+        cookie.setUserEmail(ctx, body.user.email);
         ctx.redirect('/');
     } else {
         if (response.statusCode == 422) {
@@ -238,7 +240,7 @@ export async function setPasswordRequest(ctx, next) {
 export async function logoutRequest(ctx, next) {
     const theToken = cookie.getToken(ctx);
     if (theToken && theToken.length > 0) {
-        const bearerToken = token.bearerToken(theToken);
+        const bearerToken = token.bearerTokenFromToken(theToken);
         const options = {
             url: url.resolve(config.api_address, '/logout'),
             headers: {

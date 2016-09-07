@@ -1,0 +1,7 @@
+<form action="/projects/{{detail._id}}/members" method="POST">
+    <input name="email" {{email_autofocus}} type="text" value="{{email}}">
+    <input type="submit" value="Add member">
+    {{if email_error}}
+    <p class="error-message">{{email_error}}</p>
+    {{/if}}
+</form>

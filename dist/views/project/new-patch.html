@@ -9,10 +9,10 @@
 </head>
 <body>
 
+{{include '../element/main-menu' main_menu}}
 <div class="content">
-    {{include '../element/main-menu' main_menu}}
     <h1>{{name}}</h1>
-    {{include './element/menu' project_menu}}
+    {{include './element/project-menu' project_menu}}
     <h2>Create patch</h2>
     <p class="error-message">{{error}}</p>
     <form action="/projects/{{id}}/patches/new" method="post">
@@ -68,6 +68,7 @@
     </form>
 </div>
 
+<script src="/js/config.js"></script>
 <script src="/js/cookie.js"></script>
 <script src="/js/create-patch.js"></script>
 </body>

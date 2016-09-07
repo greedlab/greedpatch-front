@@ -7,12 +7,12 @@
 </head>
 <body>
 
+{{include '../element/main-menu' main_menu}}
 <div class="content">
-    {{include '../element/main-menu' main_menu}}
-    <h1>{{name}}</h1>
-    {{include './element/menu' project_menu}}
-    <p>{{introduction}}</p>
-    <p>bundle id: {{bundle_id}}</p>
+    <h1>{{detail.name}}</h1>
+    {{include './element/project-menu' project_menu}}
+    <p>Bundle ID: {{detail.bundle_id}}</p>
+    <p>{{detail.introduction}}</p>
     <h2>Patch list</h2>
     <table border="1">
         <tr>

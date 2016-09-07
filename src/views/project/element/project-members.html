@@ -1,0 +1,27 @@
+<table class="project-members" border="1">
+    <tr>
+        <th>User</th>
+        <th>Role</th>
+        <th>Action</th>
+    </tr>
+    {{each members}}
+    <tr>
+        <td>{{$value.email}}</td>
+        <td>
+            {{if $value.role==1}}
+            owner
+            {{else}}
+            member
+            {{/if}}
+        </td>
+        <td>
+            {{if $value.role!=1}}
+            <input type="submit" value="Delete" onclick=deleteMember("{{_id}}","{{$value.id}}")>
+            <!--<form action="/projects/{{_id}}/members/{{$value.id}}" method="delete">-->
+                <!--<input type="submit" value="Delete">-->
+            <!--</form>-->
+            {{/if}}
+        </td>
+    </tr>
+    {{/each}}
+</table>

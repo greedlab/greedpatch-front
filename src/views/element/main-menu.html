@@ -1,8 +1,10 @@
-<div>
+<div class="main-menu">
     <a href="/">GreedPatch</a>
     {{if admin}}
     <a href="/admin">Admin</a>
     {{/if}}
-    <a href="/setting">{{main_menu_user}}</a>
-    <a href="/logout">Logout</a>
+    <a href="/setting">{{user_email}}</a>
+    <form action="/logout" method="post" style="display: inline">
+        <input type="submit", value="Logout">
+    </form>
 </div>

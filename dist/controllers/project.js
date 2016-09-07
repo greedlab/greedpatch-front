@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.addMemberRequest = exports.setMembers = exports.setInfoRequest = exports.setInfo = exports.createPatchRequest = exports.createPatch = exports.createRequest = exports.create = exports.detail = exports.list = undefined;
+exports.deleteMemberRequest = exports.addMemberRequest = exports.setMembers = exports.setInfoRequest = exports.setInfo = exports.createPatchRequest = exports.createPatch = exports.createRequest = exports.create = exports.detail = exports.list = undefined;
 
 var _bluebird = require('bluebird');
 
@@ -250,12 +250,12 @@ var createRequest = exports.createRequest = function () {
                         debug(data);
                         options = {
                             url: _url2.default.resolve(_config2.default.api_address, '/projects'),
-                            json: true,
                             headers: {
                                 contentType: 'application/json',
                                 Authorization: bearerToken,
                                 Accept: _config2.default.accept
                             },
+                            json: true,
                             body: data
                         };
                         response = null;
@@ -470,6 +470,464 @@ var setInfo = exports.setInfo = function () {
                         data = {};
                         bearerToken = token.bearerToken(ctx);
 
+                        // project detail
+
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id),
+                            headers: {
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        response = null;
+                        _context7.prev = 5;
+                        _context7.next = 8;
+                        return request.getAsync(options);
+
+                    case 8:
+                        response = _context7.sent;
+                        _context7.next = 16;
+                        break;
+
+                    case 11:
+                        _context7.prev = 11;
+                        _context7.t0 = _context7['catch'](5);
+
+                        data.error = 'Get project detail failed';
+                        setInfoWithData(ctx, data, project_id);
+                        return _context7.abrupt('return');
+
+                    case 16:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (!(statusCode === 200)) {
+                            _context7.next = 22;
+                            break;
+                        }
+
+                        data.content = JSON.parse(body);
+                        _context7.next = 36;
+                        break;
+
+                    case 22:
+                        if (!(statusCode === 401)) {
+                            _context7.next = 27;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context7.abrupt('return');
+
+                    case 27:
+                        if (!(statusCode === 422)) {
+                            _context7.next = 33;
+                            break;
+                        }
+
+                        data.error = body.message;
+                        setInfoWithData(ctx, data, project_id);
+                        return _context7.abrupt('return');
+
+                    case 33:
+                        data.error = 'Get project detail failed';
+                        setInfoWithData(ctx, data, project_id);
+                        return _context7.abrupt('return');
+
+                    case 36:
+                        _options2 = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id + '/patches'),
+                            headers: {
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        _response2 = null;
+                        _context7.prev = 38;
+                        _context7.next = 41;
+                        return request.getAsync(_options2);
+
+                    case 41:
+                        _response2 = _context7.sent;
+                        _context7.next = 49;
+                        break;
+
+                    case 44:
+                        _context7.prev = 44;
+                        _context7.t1 = _context7['catch'](38);
+
+                        data.error = 'Get patches failed';
+                        setInfoWithData(ctx, data, project_id);
+                        return _context7.abrupt('return');
+
+                    case 49:
+                        _statusCode2 = _response2.statusCode;
+                        _body2 = _response2.body;
+
+                        if (!(_statusCode2 === 200)) {
+                            _context7.next = 55;
+                            break;
+                        }
+
+                        data.patches = JSON.parse(_body2);
+                        _context7.next = 69;
+                        break;
+
+                    case 55:
+                        if (!(_statusCode2 === 401)) {
+                            _context7.next = 60;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context7.abrupt('return');
+
+                    case 60:
+                        if (!(_statusCode2 === 422)) {
+                            _context7.next = 66;
+                            break;
+                        }
+
+                        data.error = _body2.message;
+                        setInfoWithData(ctx, data, project_id);
+                        return _context7.abrupt('return');
+
+                    case 66:
+                        data.error = 'Get patches failed';
+                        setInfoWithData(ctx, data, project_id);
+                        return _context7.abrupt('return');
+
+                    case 69:
+
+                        setInfoWithData(ctx, data, project_id);
+
+                    case 70:
+                    case 'end':
+                        return _context7.stop();
+                }
+            }
+        }, _callee7, this, [[5, 11], [38, 44]]);
+    }));
+
+    return function setInfo(_x13, _x14) {
+        return _ref7.apply(this, arguments);
+    };
+}();
+
+var setInfoRequest = exports.setInfoRequest = function () {
+    var _ref8 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee8(ctx, next) {
+        var project_id, bearerToken, request_body, data, options, response, statusCode, body;
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+            while (1) {
+                switch (_context8.prev = _context8.next) {
+                    case 0:
+                        project_id = ctx.params.id;
+                        bearerToken = token.bearerToken(ctx);
+                        request_body = ctx.request.body;
+                        data = {
+                            content: request_body
+                        };
+
+                        debug(data);
+
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id),
+                            headers: {
+                                contentType: 'application/json',
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            },
+                            json: true,
+                            body: request_body
+                        };
+                        response = null;
+                        _context8.prev = 7;
+                        _context8.next = 10;
+                        return request.postAsync(options);
+
+                    case 10:
+                        response = _context8.sent;
+                        _context8.next = 18;
+                        break;
+
+                    case 13:
+                        _context8.prev = 13;
+                        _context8.t0 = _context8['catch'](7);
+
+                        data.error = 'Update project info failed';
+                        setInfoWithData(ctx, data, project_id);
+                        return _context8.abrupt('return');
+
+                    case 18:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (!(statusCode >= 200 && statusCode < 300)) {
+                            _context8.next = 24;
+                            break;
+                        }
+
+                        ctx.redirect('/projects/' + project_id);
+                        _context8.next = 45;
+                        break;
+
+                    case 24:
+                        if (!(statusCode === 401)) {
+                            _context8.next = 29;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context8.abrupt('return');
+
+                    case 29:
+                        if (!(statusCode === 422)) {
+                            _context8.next = 42;
+                            break;
+                        }
+
+                        if (!(body.field = 'name')) {
+                            _context8.next = 37;
+                            break;
+                        }
+
+                        data.name_error = body.message;
+                        data.name_autofocus = 'autofocus';
+                        setInfoWithData(ctx, data, project_id);
+                        return _context8.abrupt('return');
+
+                    case 37:
+                        data.error = body.message;
+                        setInfoWithData(ctx, data, project_id);
+                        return _context8.abrupt('return');
+
+                    case 40:
+                        _context8.next = 45;
+                        break;
+
+                    case 42:
+                        data.error = 'Update project info failed';
+                        setInfoWithData(ctx, data, project_id);
+                        return _context8.abrupt('return');
+
+                    case 45:
+                    case 'end':
+                        return _context8.stop();
+                }
+            }
+        }, _callee8, this, [[7, 13]]);
+    }));
+
+    return function setInfoRequest(_x15, _x16) {
+        return _ref8.apply(this, arguments);
+    };
+}();
+
+var setMembers = exports.setMembers = function () {
+    var _ref9 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee9(ctx, next) {
+        var project_id;
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+            while (1) {
+                switch (_context9.prev = _context9.next) {
+                    case 0:
+                        project_id = ctx.params.id;
+                        return _context9.abrupt('return', renderSettingMembers(ctx, null, project_id));
+
+                    case 2:
+                    case 'end':
+                        return _context9.stop();
+                }
+            }
+        }, _callee9, this);
+    }));
+
+    return function setMembers(_x17, _x18) {
+        return _ref9.apply(this, arguments);
+    };
+}();
+
+var addMemberRequest = exports.addMemberRequest = function () {
+    var _ref10 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee10(ctx, next) {
+        var project_id, bearerToken, request_body, data, options, response, statusCode, body;
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+            while (1) {
+                switch (_context10.prev = _context10.next) {
+                    case 0:
+                        project_id = ctx.params.id;
+                        bearerToken = token.bearerToken(ctx);
+                        request_body = ctx.request.body;
+
+                        debug(request_body);
+
+                        data = {};
+
+                        // add member
+
+                        data.add_member = request_body;
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id + '/members'),
+                            headers: {
+                                Authorization: bearerToken,
+                                contentType: _config2.default.content_type,
+                                Accept: _config2.default.accept
+                            },
+                            json: true,
+                            body: request_body
+                        };
+                        response = null;
+                        _context10.prev = 8;
+                        _context10.next = 11;
+                        return request.postAsync(options);
+
+                    case 11:
+                        response = _context10.sent;
+                        _context10.next = 19;
+                        break;
+
+                    case 14:
+                        _context10.prev = 14;
+                        _context10.t0 = _context10['catch'](8);
+
+                        data.add_error = 'Add member failed';
+                        data.add_email_autofocus = 'autofocus';
+                        return _context10.abrupt('return', renderSettingMembers(ctx, data, project_id));
+
+                    case 19:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (!(statusCode >= 200 && statusCode < 300)) {
+                            _context10.next = 25;
+                            break;
+                        }
+
+                        return _context10.abrupt('return', renderSettingMembers(ctx, data, project_id));
+
+                    case 25:
+                        if (!(statusCode == 401)) {
+                            _context10.next = 30;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context10.abrupt('return');
+
+                    case 30:
+                        if (!(statusCode == 422)) {
+                            _context10.next = 36;
+                            break;
+                        }
+
+                        data.add_error = body.message;
+                        data.add_email_autofocus = 'autofocus';
+                        return _context10.abrupt('return', renderSettingMembers(ctx, data, project_id));
+
+                    case 36:
+                        data.add_error = 'Add member failed';
+                        data.add_email_autofocus = 'autofocus';
+                        return _context10.abrupt('return', renderSettingMembers(ctx, data, project_id));
+
+                    case 39:
+                    case 'end':
+                        return _context10.stop();
+                }
+            }
+        }, _callee10, this, [[8, 14]]);
+    }));
+
+    return function addMemberRequest(_x19, _x20) {
+        return _ref10.apply(this, arguments);
+    };
+}();
+
+var deleteMemberRequest = exports.deleteMemberRequest = function () {
+    var _ref11 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee11(ctx, next) {
+        var project_id, member_id, bearerToken, data, options, response, statusCode, body;
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+            while (1) {
+                switch (_context11.prev = _context11.next) {
+                    case 0:
+                        project_id = ctx.params.id;
+                        member_id = ctx.params.member_id;
+                        bearerToken = token.bearerToken(ctx);
+                        data = {};
+
+                        // delete member
+
+                        options = {
+                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id + '/members/' + member_id),
+                            headers: {
+                                Authorization: bearerToken,
+                                Accept: _config2.default.accept
+                            }
+                        };
+                        response = null;
+                        _context11.prev = 6;
+                        _context11.next = 9;
+                        return request.deleteAsync(options);
+
+                    case 9:
+                        response = _context11.sent;
+                        _context11.next = 16;
+                        break;
+
+                    case 12:
+                        _context11.prev = 12;
+                        _context11.t0 = _context11['catch'](6);
+
+                        data.error = 'Delete member failed';
+                        return _context11.abrupt('return', renderSettingMembers(ctx, data, project_id));
+
+                    case 16:
+                        statusCode = response.statusCode;
+                        body = response.body;
+
+                        if (!(statusCode >= 200 && statusCode < 300)) {
+                            _context11.next = 22;
+                            break;
+                        }
+
+                        return _context11.abrupt('return', renderSettingMembers(ctx, data, project_id));
+
+                    case 22:
+                        if (!(statusCode == 401)) {
+                            _context11.next = 27;
+                            break;
+                        }
+
+                        ctx.redirect('/login');
+                        return _context11.abrupt('return');
+
+                    case 27:
+                        data.error = 'Delete member failed';
+                        return _context11.abrupt('return', renderSettingMembers(ctx, data, project_id));
+
+                    case 29:
+                    case 'end':
+                        return _context11.stop();
+                }
+            }
+        }, _callee11, this, [[6, 12]]);
+    }));
+
+    return function deleteMemberRequest(_x21, _x22) {
+        return _ref11.apply(this, arguments);
+    };
+}();
+
+// private request
+
+var renderSettingMembers = function () {
+    var _ref12 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee12(ctx, data, project_id) {
+        var bearerToken, options, response, statusCode, body;
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+            while (1) {
+                switch (_context12.prev = _context12.next) {
+                    case 0:
+                        data = data || {};
+                        // const project_id = ctx.params.id;
+                        bearerToken = token.bearerToken(ctx);
+
                         // project menu
 
                         data.project_menu = {
@@ -485,180 +943,72 @@ var setInfo = exports.setInfo = function () {
                             }
                         };
                         response = null;
-                        _context7.prev = 6;
-                        _context7.next = 9;
+                        _context12.prev = 5;
+                        _context12.next = 8;
                         return request.getAsync(options);
 
-                    case 9:
-                        response = _context7.sent;
-                        _context7.next = 17;
+                    case 8:
+                        response = _context12.sent;
+                        _context12.next = 16;
                         break;
 
-                    case 12:
-                        _context7.prev = 12;
-                        _context7.t0 = _context7['catch'](6);
+                    case 11:
+                        _context12.prev = 11;
+                        _context12.t0 = _context12['catch'](5);
 
                         data.error = 'Get project detail failed';
-                        setInfoWithData(ctx, data);
-                        return _context7.abrupt('return');
+                        setMembersWithData(ctx, data, project_id);
+                        return _context12.abrupt('return');
 
-                    case 17:
+                    case 16:
                         statusCode = response.statusCode;
                         body = response.body;
 
-                        if (!(statusCode == 200)) {
-                            _context7.next = 23;
+                        if (!(statusCode >= 200 && statusCode < 300)) {
+                            _context12.next = 22;
                             break;
                         }
 
                         data.detail = JSON.parse(body);
-                        _context7.next = 31;
+                        _context12.next = 30;
                         break;
 
-                    case 23:
+                    case 22:
                         if (!(statusCode == 401)) {
-                            _context7.next = 28;
+                            _context12.next = 27;
                             break;
                         }
 
                         ctx.redirect('/login');
-                        return _context7.abrupt('return');
+                        return _context12.abrupt('return');
 
-                    case 28:
+                    case 27:
                         data.error = 'Get project detail failed';
-                        setInfoWithData(ctx, data);
-                        return _context7.abrupt('return');
+                        setMembersWithData(ctx, data, project_id);
+                        return _context12.abrupt('return');
+
+                    case 30:
+                        setMembersWithData(ctx, data, project_id);
 
                     case 31:
-                        _options2 = {
-                            url: _url2.default.resolve(_config2.default.api_address, '/projects/' + project_id + '/patches'),
-                            headers: {
-                                Authorization: bearerToken,
-                                Accept: _config2.default.accept
-                            }
-                        };
-                        _response2 = null;
-                        _context7.prev = 33;
-                        _context7.next = 36;
-                        return request.getAsync(_options2);
-
-                    case 36:
-                        _response2 = _context7.sent;
-                        _context7.next = 44;
-                        break;
-
-                    case 39:
-                        _context7.prev = 39;
-                        _context7.t1 = _context7['catch'](33);
-
-                        data.error = 'Get patches failed';
-                        setInfoWithData(ctx, data);
-                        return _context7.abrupt('return');
-
-                    case 44:
-                        _statusCode2 = _response2.statusCode;
-                        _body2 = _response2.body;
-
-                        if (!(_statusCode2 == 200)) {
-                            _context7.next = 50;
-                            break;
-                        }
-
-                        data.patches = JSON.parse(_body2);
-                        _context7.next = 58;
-                        break;
-
-                    case 50:
-                        if (!(_statusCode2 == 401)) {
-                            _context7.next = 55;
-                            break;
-                        }
-
-                        ctx.redirect('/login');
-                        return _context7.abrupt('return');
-
-                    case 55:
-                        data.error = 'Get patches failed';
-                        setInfoWithData(ctx, data);
-                        return _context7.abrupt('return');
-
-                    case 58:
-
-                        setInfoWithData(ctx, data);
-
-                    case 59:
                     case 'end':
-                        return _context7.stop();
+                        return _context12.stop();
                 }
             }
-        }, _callee7, this, [[6, 12], [33, 39]]);
+        }, _callee12, this, [[5, 11]]);
     }));
 
-    return function setInfo(_x13, _x14) {
-        return _ref7.apply(this, arguments);
-    };
-}();
-
-var setInfoRequest = exports.setInfoRequest = function () {
-    var _ref8 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee8(ctx, next) {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
-            while (1) {
-                switch (_context8.prev = _context8.next) {
-                    case 0:
-                    case 'end':
-                        return _context8.stop();
-                }
-            }
-        }, _callee8, this);
-    }));
-
-    return function setInfoRequest(_x15, _x16) {
-        return _ref8.apply(this, arguments);
-    };
-}();
-
-var setMembers = exports.setMembers = function () {
-    var _ref9 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee9(ctx, next) {
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
-            while (1) {
-                switch (_context9.prev = _context9.next) {
-                    case 0:
-                    case 'end':
-                        return _context9.stop();
-                }
-            }
-        }, _callee9, this);
-    }));
-
-    return function setMembers(_x17, _x18) {
-        return _ref9.apply(this, arguments);
-    };
-}();
-
-var addMemberRequest = exports.addMemberRequest = function () {
-    var _ref10 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee10(ctx, next) {
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
-            while (1) {
-                switch (_context10.prev = _context10.next) {
-                    case 0:
-                    case 'end':
-                        return _context10.stop();
-                }
-            }
-        }, _callee10, this);
-    }));
-
-    return function addMemberRequest(_x19, _x20) {
-        return _ref10.apply(this, arguments);
+    return function renderSettingMembers(_x23, _x24, _x25) {
+        return _ref12.apply(this, arguments);
     };
 }();
 
 var getProjectVewsions = function () {
-    var _ref11 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee11(ctx) {
+    var _ref13 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee13(ctx) {
         var project_id, bearerToken, options, response, statusCode, body;
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
             while (1) {
-                switch (_context11.prev = _context11.next) {
+                switch (_context13.prev = _context13.next) {
                     case 0:
                         project_id = ctx.params.id;
                         bearerToken = token.bearerToken(ctx);
@@ -671,30 +1021,30 @@ var getProjectVewsions = function () {
                             }
                         };
                         response = null;
-                        _context11.prev = 4;
-                        _context11.next = 7;
+                        _context13.prev = 4;
+                        _context13.next = 7;
                         return request.getAsync(options);
 
                     case 7:
-                        response = _context11.sent;
-                        _context11.next = 13;
+                        response = _context13.sent;
+                        _context13.next = 13;
                         break;
 
                     case 10:
-                        _context11.prev = 10;
-                        _context11.t0 = _context11['catch'](4);
-                        return _context11.abrupt('return', null);
+                        _context13.prev = 10;
+                        _context13.t0 = _context13['catch'](4);
+                        return _context13.abrupt('return', null);
 
                     case 13:
                         statusCode = response.statusCode;
                         body = response.body;
 
                         if (!(statusCode >= 200 && statusCode < 300)) {
-                            _context11.next = 19;
+                            _context13.next = 19;
                             break;
                         }
 
-                        return _context11.abrupt('return', JSON.parse(body));
+                        return _context13.abrupt('return', JSON.parse(body));
 
                     case 19:
                         if (statusCode == 401) {
@@ -702,20 +1052,22 @@ var getProjectVewsions = function () {
                         }
 
                     case 20:
-                        return _context11.abrupt('return', null);
+                        return _context13.abrupt('return', null);
 
                     case 21:
                     case 'end':
-                        return _context11.stop();
+                        return _context13.stop();
                 }
             }
-        }, _callee11, this, [[4, 10]]);
+        }, _callee13, this, [[4, 10]]);
     }));
 
-    return function getProjectVewsions(_x21) {
-        return _ref11.apply(this, arguments);
+    return function getProjectVewsions(_x26) {
+        return _ref13.apply(this, arguments);
     };
 }();
+
+// private render
 
 var _artTemplate = require('art-template');
 
@@ -741,9 +1093,9 @@ var _token = require('../utils/token');
 
 var token = _interopRequireWildcard(_token);
 
-var _cookie = require('../utils/cookie');
+var _data = require('../tools/data');
 
-var cookie = _interopRequireWildcard(_cookie);
+var render_data = _interopRequireWildcard(_data);
 
 var _debug = require('debug');
 
@@ -766,23 +1118,14 @@ var debug = new _debug2.default(_package2.default.name);
 var request = _bluebird2.default.promisifyAll(_request2.default);
 
 function listWithData(ctx, data) {
-    var role = cookie.getRole(ctx);
-    if (role === 1) {
-        data.main_menu = {
-            admin: 1
-        };
-    }
+    data.main_menu = render_data.mainMenuData(ctx);
+
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/list'), data);
     ctx.body = html;
 }
 
 function createWithData(ctx, data) {
-    var role = cookie.getRole(ctx);
-    if (role === 1) {
-        data.main_menu = {
-            admin: 1
-        };
-    }
+    data.main_menu = render_data.mainMenuData(ctx);
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new'), data);
     ctx.body = html;
 }
@@ -796,26 +1139,53 @@ function createWithData(ctx, data) {
  * @param error {string}
  */
 function detailWithData(ctx, data) {
-    debug(data);
-    var role = cookie.getRole(ctx);
-    if (role === 1) {
-        data.main_menu = {
-            admin: 1
-        };
-    }
+    data.main_menu = render_data.mainMenuData(ctx);
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/detail'), data);
     ctx.body = html;
 }
 
 function createPatchWithData(ctx, data) {
-    var role = cookie.getRole(ctx);
-    if (role === 1) {
-        data.main_menu = {
-            admin: 1
-        };
-    }
+    data.main_menu = render_data.mainMenuData(ctx);
     debug(data);
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new-patch'), data);
+    ctx.body = html;
+}
+
+function setInfoWithData(ctx, data, project_id) {
+    // main menu
+    data.main_menu = render_data.mainMenuData(ctx);
+
+    // project menu
+    data.project_menu = {
+        id: project_id
+    };
+
+    // project set menu
+    data.project_set_menu = {
+        id: project_id
+    };
+
+    debug(data);
+    var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/set-info'), data);
+    ctx.body = html;
+}
+
+function setMembersWithData(ctx, data, project_id) {
+    // main menu
+    data.main_menu = render_data.mainMenuData(ctx);
+
+    // project menu
+    data.project_menu = {
+        id: project_id
+    };
+
+    // project set menu
+    data.project_set_menu = {
+        id: project_id
+    };
+
+    debug(data);
+    var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/set-members'), data);
     ctx.body = html;
 }
 //# sourceMappingURL=project.js.map

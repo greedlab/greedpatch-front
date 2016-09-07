@@ -17,10 +17,11 @@ function projectVersionsSelected() {
 }
 
 function uploadFile() {
-    var formData = new FormData();
+    let formData = new FormData();
     formData.append('file', $('#patch-file')[0].files[0]);
+
     $.ajax({
-        url: 'http://localhost:4002/files' ,
+        url: front_address + '/files' ,
         type: 'POST',
         data: formData,
         xhrFields: {

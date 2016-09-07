@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/project.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <title>Setting members</title>
+</head>
+<body>
+
+{{include '../element/main-menu' main_menu}}
+<div class="content">
+    {{if detail.name}}
+    <h1>{{detail.name}}</h1>
+    {{/if}}
+    {{include './element/project-menu' project_menu}}
+    {{include './element/project-set-menu' project_set_menu}}
+    <div class="project-set-content">
+        {{if error}}
+        <p class="error-message">{{error}}</p>
+        {{/if}}
+        {{include './element/project-members' detail}}
+
+        <form action="/projects/{{detail._id}}/members" method="POST">
+            <input name="email" {{add_email_autofocus}} type="text" value="{{add_email}}">
+            <input type="submit" value="Add member">
+            {{if add_error}}
+            <p class="error-message">{{add_error}}</p>
+            {{/if}}
+        </form>
+    </div>
+</div>
+
+<script src="/js/config.js"></script>
+<script src="/js/project.js"></script>
+</body>
+</html>

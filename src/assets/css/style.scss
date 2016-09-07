@@ -4,7 +4,13 @@ h1 {
   color: $blue;
 }
 
+.main-menu {
+  min-width: 640px;
+  text-align: center;
+}
+
 .content {
+  min-width: 640px;
   text-align: center;
 }
 
@@ -19,3 +25,4 @@ h1 {
 .login-button {
   right: 100px;
 }
+

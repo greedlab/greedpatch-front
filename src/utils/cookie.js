@@ -3,12 +3,13 @@
  */
 
 const token_key = 'token';
-const role_key = 'role';
+const user_role_key = 'user_role';
+const user_email_key = 'user_email';
 
 export function setToken(ctx, token) {
     ctx.cookies.set(token_key, token, {
         signed: true,
-        httpOnly: false,
+        httpOnly: true,
         maxAge: maxAge()
     });
 }
@@ -25,29 +26,45 @@ export function clearToken(ctx) {
     });
 }
 
-export function setRole(ctx, token) {
-    ctx.cookies.set(role_key, token, {
+export function setUserRole(ctx, token) {
+    ctx.cookies.set(user_role_key, token, {
         signed: true,
-        httpOnly: false,
+        httpOnly: true,
         maxAge: maxAge()
     });
 }
 
-export function getRole(ctx) {
-    return ctx.cookies.get(role_key, {
+export function getUserRole(ctx) {
+    return ctx.cookies.get(user_role_key, {
         signed: true
     });
 }
 
-export function clearRole(ctx) {
-    ctx.cookies.set(role_key, null, {
+export function clearUserRole(ctx) {
+    ctx.cookies.set(user_role_key, null, {
         signed: true
     });
+}
+
+export function setUserEmail(ctx, token) {
+    ctx.cookies.set(user_email_key, token, {
+        httpOnly: true,
+        maxAge: maxAge()
+    });
+}
+
+export function getUserEmail(ctx) {
+    return ctx.cookies.get(user_email_key);
+}
+
+export function clearUserEmail(ctx) {
+    ctx.cookies.set(user_email_key, null);
 }
 
 export function clear(ctx) {
     clearToken(ctx);
-    clearRole(ctx);
+    clearUserRole(ctx);
+    clearUserEmail(ctx);
 }
 
 function maxAge() {
