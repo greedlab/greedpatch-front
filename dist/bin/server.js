@@ -36,6 +36,10 @@ var _project = require('../routes/project');
 
 var _project2 = _interopRequireDefault(_project);
 
+var _setting = require('../routes/setting');
+
+var _setting2 = _interopRequireDefault(_setting);
+
 var _debug = require('debug');
 
 var _debug2 = _interopRequireDefault(_debug);
@@ -46,8 +50,9 @@ var _package2 = _interopRequireDefault(_package);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import logger from 'koa-logger';
 var debug = new _debug2.default(_package2.default.name);
+// import logger from 'koa-logger';
+
 
 var app = new _koa2.default();
 
@@ -84,7 +89,7 @@ app.use(_koaBunyanLogger2.default.requestLogger({
 
 // router
 
-app.use(_home2.default.router.routes()).use(_home2.default.router.allowedMethods()).use(_project2.default.router.routes()).use(_project2.default.router.allowedMethods());
+app.use(_home2.default.router.routes()).use(_home2.default.router.allowedMethods()).use(_project2.default.router.routes()).use(_project2.default.router.allowedMethods()).use(_setting2.default.router.routes()).use(_setting2.default.router.allowedMethods());
 
 // listen
 

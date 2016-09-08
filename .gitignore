@@ -39,6 +39,10 @@ jspm_packages
 # WebStorm
 .idea
 
-# config
+# node config
 **/env/develop.js*
 **/env/release.js*
+
+# web config
+**/config/develop.js*
+**/config/release.js*

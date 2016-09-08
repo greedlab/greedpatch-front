@@ -1,0 +1,1 @@
+{"version":3,"sources":["js/setting.js"],"names":["copyNewToken","$","copy"],"mappings":";;AAAA;;;;AAIA,SAASA,YAAT,GAAwB;AACpBC,IAAE,cAAF,EAAkBC,IAAlB;AACH","file":"js/setting.js","sourcesContent":["/**\n * Created by Bell on 16/9/8.\n */\n\nfunction copyNewToken() {\n    $(\"#token-value\").copy();\n}\n"],"sourceRoot":"/source/"}

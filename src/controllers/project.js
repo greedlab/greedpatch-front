@@ -605,6 +605,7 @@ function detailWithData(ctx, data) {
 
 function createPatchWithData(ctx, data) {
     data.main_menu = render_data.mainMenuData(ctx);
+    data.config_env = process.env.NODE_ENV || 'default';
     debug(data);
     let html = template(path.join(__dirname, '../views/project/new-patch'), data);
     ctx.body = html;
@@ -642,6 +643,9 @@ function setMembersWithData(ctx, data, project_id) {
     data.project_set_menu = {
         id: project_id
     };
+
+    // web config env
+    data.config_env = process.env.NODE_ENV || 'default';
 
     debug(data);
     let html = template(path.join(__dirname, '../views/project/set-members'), data);

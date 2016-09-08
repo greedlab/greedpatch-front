@@ -11,6 +11,7 @@ import config from '../config';
 
 import home from '../routes/home';
 import project from '../routes/project';
+import setting from '../routes/setting';
 
 import Debug from 'debug';
 import pkg from '../../package.json';
@@ -55,7 +56,9 @@ app
     .use(home.router.routes())
     .use(home.router.allowedMethods())
     .use(project.router.routes())
-    .use(project.router.allowedMethods());
+    .use(project.router.allowedMethods())
+    .use(setting.router.routes())
+    .use(setting.router.allowedMethods());
 
 // listen
 

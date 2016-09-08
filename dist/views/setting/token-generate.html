@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/setting.css">
+    <title>Generate new token</title>
+</head>
+<body>
+
+{{include '../element/main-menu' main_menu}}
+
+<div class="content">
+    {{include './element/setting-menu' setting_menu}}
+    <div class="setting-content">
+        <h1>Generate new token</h1>
+
+        {{if error}}
+        <p class="error-message">{{error}}</p>
+        {{/if}}
+
+        <form action="/settings/my/tokens/new" method="post">
+            <p>
+                <label for="password">Password</label>
+                <input id="password" {{password_autofocus}} name="password" tabindex="1" type="password" value="{{password}}">
+                {{if password_error}}
+                <p class="error-message">{{password_error}}</p>
+                {{/if}}
+            </p>
+            <p>
+                <label for="name">Name</label>
+                <input id="name" {{name_autofocus}} name="name" tabindex="2" type="text" value="{{name}}">
+                {{if name_error}}
+                <p class="error-message">{{name_error}}</p>
+                {{/if}}
+            </p>
+            <p>
+                <input tabindex="3" type="submit" value="Generate new token">
+            </p>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

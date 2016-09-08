@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/setting.css">
+    <title>My account</title>
+</head>
+<body>
+
+{{include '../element/main-menu' main_menu}}
+
+<div class="content">
+    {{include './element/setting-menu' setting_menu}}
+    <div class="setting-content">
+        <h1>My account</h1>
+        {{if error}}
+        <p class="error-message">{{error}}</p>
+        {{/if}}
+        <form action="/settings/my/account" method="post">
+            <p>
+                <label form="password">Original password:</label>
+                <input id="password" name="password" tabindex="1" type="password" {{password_autofocus}}
+                       placeholder="Input the original password" value="{{password}}">
+                {{if password_error}}
+            <p class="error-message">{{password_error}}</p>
+            {{/if}}
+            </p>
+            <p>
+                <label form="new_password">New password:</label>
+                <input id="new_password" name="new_password" tabindex="2" type="password" {{new_password_autofocus}}
+                       placeholder="Input new password" value="{{new_password}}">
+                {{if new_password_error}}
+            <p class="error-message">{{new_password_error}}</p>
+            {{/if}}
+            </p>
+            <p>
+                <label form="confirm_password">Confirm password:</label>
+                <input id="confirm_password" name="confirm_password" tabindex="3" type="password"
+                       {{confirm_password_autofocus}} placeholder="Confirm new password" value="{{confirm_password}}">
+                {{if confirm_password_error}}
+            <p class="error-message">{{confirm_password_error}}</p>
+            {{/if}}
+            </p>
+            <p>
+                <input tabindex="4" type="submit" value="Modify password">
+            </p>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/setting.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <title>Token detail</title>
+</head>
+<body>
+
+{{include '../element/main-menu' main_menu}}
+
+<div class="content">
+    {{include './element/setting-menu' setting_menu}}
+    <div class="setting-content">
+        <h1>Token detail</h1>
+        <div>
+            <form action="/settings/my/tokens/{{id}}">
+                <label for="password">Password</label>
+                <input id="password" {{password_autofocus}} name="password" type="password" value="{{password}}">
+                <input type="submit" value="Submit">
+            </form>
+            {{if password_error}}
+            <p class="error-message">{{password_error}}</p>
+            {{/if}}
+        </div>
+
+        {{if token}}
+        <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>{{token.name}}</td>
+                <td class="auto-break" id="token-value">{{token.token}}</td>
+                <td>
+                    <input type="submit" value="Copy" onclick=copyNewToken()>
+                </td>
+            </tr>
+        </table>
+        {{/if}}
+    </div>
+</div>
+
+<script src="/js/setting.js"></script>
+
+</body>
+</html>

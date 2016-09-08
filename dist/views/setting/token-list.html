@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/setting.css">
+    <title>My account</title>
+</head>
+<body>
+
+{{include '../element/main-menu' main_menu}}
+
+<div class="content">
+    {{include './element/setting-menu' setting_menu}}
+    <div class="setting-content">
+        <h1>Access Tokens</h1>
+        <p>
+            Access tokens can be used to access the <a href="https://github.com/greedlab/greedpatch-document">GreedPatch
+            API</a>
+        <form action="/settings/my/tokens/new" method="get">
+            <input type="submit" value="Generate new token">
+        </form>
+
+        {{if error}}
+        <p class="error-message">{{error}}</p>
+        {{/if}}
+
+        </p>
+        <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+            {{each tokens}}
+            <tr>
+                <td>{{$value.name}}</td>
+                <td>
+                    <form action="/settings/my/tokens/{{$value._id}}" method="get">
+                        <input type="submit" value="Detail">
+                    </form>
+                    <input type="submit" value="Delete" onclick=deleteToken("{{$value._id}}")>
+                </td>
+                <td><a href={{$value.patch_url}}>{{$value.patch_url}}</a>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -18,4 +18,7 @@ h1 {
 .login-button {
   right: 100px; }
 
+.auto-break {
+  word-break: break-all; }
+
 /*# sourceMappingURL=style.css.map */
