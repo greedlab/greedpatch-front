@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/project.css"/>
     <link rel="stylesheet" href="/css/create-patch.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <title>Title</title>
@@ -11,17 +12,18 @@
 
 {{include '../element/main-menu' main_menu}}
 <div class="content">
-    <h1>{{name}}</h1>
+    <h1>{{project_name}}</h1>
     {{include './element/project-menu' project_menu}}
     <h2>Create patch</h2>
     <p class="error-message">{{error}}</p>
     <form action="/projects/{{id}}/patches/new" method="post">
-        <div>
-            <label for="project_version">Project version</label>
-            <input id="project_version" name="project_version" {{project_version_autofocus}} tabindex="1" type="text"
-                   list="project_versions"
+        <input hidden name="project_name" value="{{project_name}}">
+        <p>
+            <label for="project-version">Project version</label>
+            <input id="project-version" name="project_version" {{project_version_autofocus}} tabindex="1" type="text"
+                   list="project-versions"
                    placeholder="Input project version" value="{{project_version}}">
-            <datalist id="project_versions">
+            <datalist id="project-versions">
                 {{each project_versions}}
                 <option value={{$value}}>
                     {{/each}}
@@ -29,25 +31,16 @@
             {{if project_version_error}}
             <p class="error-message">{{project_version_error}}</p>
             {{/if}}
-        </div>
-
-        <div>
-            <label for="patch-version">Patch version</label>
-            <input id="patch-version" name="patch_version" {{patch_version_autofocus}} tabindex="2" type="text"
-                   placeholder="Input patch version" value="{{patch_version}}">
-            {{if patch_version_error}}
-            <p class="error-message">{{patch_version_error}}</p>
-            {{/if}}
-        </div>
-        <div>
+        </p>
+        <p>
             <label for="hash">Hash</label>
             <input id="hash" name="hash" {{hash_autofocus}} tabindex="3" type="text"
                    placeholder="Input hash of the patch file" value="{{hash}}">
             {{if hash_error}}
             <p class="error-message">{{hash_error}}</p>
             {{/if}}
-        </div>
-        <div>
+        </p>
+        <p>
             <label for="patch-url">Patch URL</label>
             <input id="patch-url" name="patch_url" {{patch_url_autofocus}} tabindex="3" type="text"
                    placeholder="Input hash of the patch file" value="{{patch_url}}">
@@ -63,12 +56,17 @@
             {{if upload_error}}
             <p class="error-message" id="upload-error">{{upload_error}}</p>
             {{/if}}
-        </div>
+        </p>
         <input tabindex="4" type="submit" value="Create">
     </form>
 </div>
 
-<script src="/js/config/{{config_env}}.js"></script>
+{{if node_env}}
+<script src='/js/config/{{node_env}}.js'></script>
+{{else}}
+<script src='/js/config/default.js'></script>
+{{/if}}
+
 <script src="/js/cookie.js"></script>
 <script src="/js/create-patch.js"></script>
 </body>

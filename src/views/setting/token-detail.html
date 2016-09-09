@@ -15,8 +15,11 @@
     {{include './element/setting-menu' setting_menu}}
     <div class="setting-content">
         <h1>Token detail</h1>
+        {{if error}}
+        <p class="error-message">{{error}}</p>
+        {{/if}}
         <div>
-            <form action="/settings/my/tokens/{{id}}">
+            <form action="/settings/my/tokens/{{id}}" method="post">
                 <label for="password">Password</label>
                 <input id="password" {{password_autofocus}} name="password" type="password" value="{{password}}">
                 <input type="submit" value="Submit">
@@ -45,6 +48,7 @@
     </div>
 </div>
 
+<!--<script src="/js/util.js"></script>-->
 <script src="/js/setting.js"></script>
 
 </body>

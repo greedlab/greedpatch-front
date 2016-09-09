@@ -1,6 +1,11 @@
 
-.project-menu {
+div.project-menu {
   width: 100%;
+}
+
+a.project-menu {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .project-set-menu {
@@ -16,4 +21,9 @@
 .project-introduction {
   height: 100px;
   width: auto;
+}
+
+li.project-list {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

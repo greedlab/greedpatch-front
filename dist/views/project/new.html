@@ -14,24 +14,24 @@
     <h1>Create Project</h1>
     <p class="error-message">{{error}}</p>
     <form action="/projects/" method="post">
-        <div>
+        <p>
             <label for="name">Project name</label>
             <input id="name" name="name" {{name_autofocus}} tabindex="1" type="text" placeholder="input the name of the project" value="{{name}}">
             {{if name_error}}
             <p class="error-message">{{name_error}}</p>
             {{/if}}
-        </div>
-        <div>
+        </p>
+        <p>
             <label for="bundle_id">Bundle ID</label>
             <input id="bundle_id" name="bundle_id" {{bundle_id_autofocus}} tabindex="2" type="text" placeholder="input the Identity  of the project" value="{{bundle_id}}">
-        </div>
-        <div>
+        </p>
+        <p>
             <label for="introduction">Introduction</label>
             <textarea class="project-introduction" id="introduction" name="introduction"
                       {{introduction_autofocus}} tabindex="3"
                       placeholder="Input the introduction of the project"> {{introduction}}
                 </textarea>
-        </div>
+        </p>
         <input tabindex="4" type="submit" value="Create">
     </form>
 </div>

@@ -256,6 +256,7 @@ export async function tokenDetail(ctx, next) {
 export async function tokenDetailRequest(ctx, next) {
     const bearerToken = token.bearerToken(ctx);
     const request_body = ctx.request.body;
+    debug(request_body);
     const token_id = ctx.params.id;
     let data = request_body;
     data.id = token_id;
@@ -276,8 +277,8 @@ export async function tokenDetailRequest(ctx, next) {
         try {
             response = await request.postAsync(options);
         } catch (err) {
-            data.error = 'Generate new token failed';
-            renderGeneratedTokenWithData(ctx, data);
+            data.error = 'Get token detail failed';
+            renderTokenDetailWithData(ctx, data);
             return;
         }
 
@@ -285,7 +286,8 @@ export async function tokenDetailRequest(ctx, next) {
         const body = response.body;
         debug(body);
         if (statusCode >= 200 && statusCode < 300) {
-            renderGeneratedTokenWithData(ctx, body);
+            data.token = body;
+            renderTokenDetailWithData(ctx, data);
         } else if (statusCode === 401) {
             ctx.redirect('/login');
         } else if (statusCode === 422) {
@@ -294,19 +296,16 @@ export async function tokenDetailRequest(ctx, next) {
                 if (error.field == 'password') {
                     data.password_error = body.message;
                     data.password_autofocus = 'autofocus';
-                } else if (error.field == 'name') {
-                    data.name_error = body.message;
-                    data.name_autofocus = 'autofocus';
                 } else {
                     data.error = body.message;
                 }
             } else {
                 data.error = body.message;
             }
-            renderGenerateTokenWithData(ctx, data);
+            renderTokenDetailWithData(ctx, data);
         } else {
-            data.error = 'Modify password failed';
-            renderGenerateTokenWithData(ctx, data);
+            data.error = 'Get token detail failed';
+            renderTokenDetailWithData(ctx, data);
         }
     }
 }
@@ -335,6 +334,9 @@ async function renderTokensWithData(ctx, data) {
     // main menu
     data.main_menu = render_data.mainMenuData(ctx);
 
+    // config js
+    data.node_env = process.env.NODE_ENV || 'default';
+
     debug(data);
     let html = template(path.join(__dirname, '../views/setting/tokens'), data);
     ctx.body = html;
@@ -352,6 +354,9 @@ async function renderGenerateTokenWithData(ctx, data) {
 async function renderGeneratedTokenWithData(ctx, data) {
     // main menu
     data.main_menu = render_data.mainMenuData(ctx);
+
+    // config js
+    data.node_env = process.env.NODE_ENV || 'default';
 
     debug(data);
     let html = template(path.join(__dirname, '../views/setting/token-generated'), data);

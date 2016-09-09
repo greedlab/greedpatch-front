@@ -111,7 +111,7 @@ var detail = exports.detail = function () {
                         _context2.t0 = _context2['catch'](6);
 
                         data.error = 'Get project detail failed';
-                        detailWithData(ctx, data);
+                        renderDetailWithData(ctx, data);
                         return _context2.abrupt('return');
 
                     case 17:
@@ -138,7 +138,7 @@ var detail = exports.detail = function () {
 
                     case 28:
                         data.error = 'Get project detail failed';
-                        detailWithData(ctx, data);
+                        renderDetailWithData(ctx, data);
                         return _context2.abrupt('return');
 
                     case 31:
@@ -164,7 +164,7 @@ var detail = exports.detail = function () {
                         _context2.t1 = _context2['catch'](33);
 
                         data.error = 'Get patches failed';
-                        detailWithData(ctx, data);
+                        renderDetailWithData(ctx, data);
                         return _context2.abrupt('return');
 
                     case 44:
@@ -191,12 +191,12 @@ var detail = exports.detail = function () {
 
                     case 55:
                         data.error = 'Get patches failed';
-                        detailWithData(ctx, data);
+                        renderDetailWithData(ctx, data);
                         return _context2.abrupt('return');
 
                     case 58:
 
-                        detailWithData(ctx, data);
+                        renderDetailWithData(ctx, data);
 
                     case 59:
                     case 'end':
@@ -319,7 +319,7 @@ var createRequest = exports.createRequest = function () {
 
 var createPatch = exports.createPatch = function () {
     var _ref5 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee5(ctx, next) {
-        var data, project_id, version_object;
+        var data, project_id, versions_object;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
             while (1) {
                 switch (_context5.prev = _context5.next) {
@@ -334,10 +334,11 @@ var createPatch = exports.createPatch = function () {
                         return getProjectVewsions(ctx);
 
                     case 5:
-                        version_object = _context5.sent;
+                        versions_object = _context5.sent;
 
-                        if (version_object) {
-                            data.project_versions = version_object.versions;
+                        if (versions_object) {
+                            data.project_versions = versions_object.project_versions;
+                            data.project_name = versions_object.project_name;
                         }
 
                         // project menu
@@ -345,7 +346,7 @@ var createPatch = exports.createPatch = function () {
                             id: project_id
                         };
 
-                        createPatchWithData(ctx, data);
+                        renderCreatePatchWithData(ctx, data);
 
                     case 9:
                     case 'end':
@@ -397,7 +398,7 @@ var createPatchRequest = exports.createPatchRequest = function () {
                         _context6.t0 = _context6['catch'](6);
 
                         data.error = 'Create patch failed';
-                        createPatchWithData(ctx, data);
+                        renderCreatePatchWithData(ctx, data);
                         return _context6.abrupt('return');
 
                     case 17:
@@ -416,9 +417,6 @@ var createPatchRequest = exports.createPatchRequest = function () {
                                     if (error.field == 'project_version') {
                                         data.project_version_autofocus = 'autofocus';
                                         data.project_version_error = body.message;
-                                    } else if (error.field == 'patch_version') {
-                                        data.patch_version_autofocus = 'autofocus';
-                                        data.patch_version_error = body.message;
                                     } else if (error.field == 'hash') {
                                         data.hash_autofocus = 'autofocus';
                                         data.hash_error = body.message;
@@ -443,7 +441,7 @@ var createPatchRequest = exports.createPatchRequest = function () {
                         };
 
                         data.id = project_id;
-                        createPatchWithData(ctx, data);
+                        renderCreatePatchWithData(ctx, data);
 
                     case 23:
                     case 'end':
@@ -494,7 +492,7 @@ var setInfo = exports.setInfo = function () {
                         _context7.t0 = _context7['catch'](5);
 
                         data.error = 'Get project detail failed';
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context7.abrupt('return');
 
                     case 16:
@@ -526,12 +524,12 @@ var setInfo = exports.setInfo = function () {
                         }
 
                         data.error = body.message;
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context7.abrupt('return');
 
                     case 33:
                         data.error = 'Get project detail failed';
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context7.abrupt('return');
 
                     case 36:
@@ -557,7 +555,7 @@ var setInfo = exports.setInfo = function () {
                         _context7.t1 = _context7['catch'](38);
 
                         data.error = 'Get patches failed';
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context7.abrupt('return');
 
                     case 49:
@@ -589,17 +587,17 @@ var setInfo = exports.setInfo = function () {
                         }
 
                         data.error = _body2.message;
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context7.abrupt('return');
 
                     case 66:
                         data.error = 'Get patches failed';
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context7.abrupt('return');
 
                     case 69:
 
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
 
                     case 70:
                     case 'end':
@@ -655,7 +653,7 @@ var setInfoRequest = exports.setInfoRequest = function () {
                         _context8.t0 = _context8['catch'](7);
 
                         data.error = 'Update project info failed';
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context8.abrupt('return');
 
                     case 18:
@@ -693,12 +691,12 @@ var setInfoRequest = exports.setInfoRequest = function () {
 
                         data.name_error = body.message;
                         data.name_autofocus = 'autofocus';
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context8.abrupt('return');
 
                     case 37:
                         data.error = body.message;
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context8.abrupt('return');
 
                     case 40:
@@ -707,7 +705,7 @@ var setInfoRequest = exports.setInfoRequest = function () {
 
                     case 42:
                         data.error = 'Update project info failed';
-                        setInfoWithData(ctx, data, project_id);
+                        renderSetInfoWithData(ctx, data, project_id);
                         return _context8.abrupt('return');
 
                     case 45:
@@ -1005,7 +1003,8 @@ var renderSettingMembers = function () {
 
 var getProjectVewsions = function () {
     var _ref13 = (0, _bluebird.coroutine)(regeneratorRuntime.mark(function _callee13(ctx) {
-        var project_id, bearerToken, options, response, statusCode, body;
+        var project_id, bearerToken, options, response, statusCode, body, versions_object, project_versions, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, version;
+
         return regeneratorRuntime.wrap(function _callee13$(_context13) {
             while (1) {
                 switch (_context13.prev = _context13.next) {
@@ -1039,27 +1038,78 @@ var getProjectVewsions = function () {
                         statusCode = response.statusCode;
                         body = response.body;
 
+                        debug(body);
+
                         if (!(statusCode >= 200 && statusCode < 300)) {
-                            _context13.next = 19;
+                            _context13.next = 43;
                             break;
                         }
 
-                        return _context13.abrupt('return', JSON.parse(body));
+                        versions_object = JSON.parse(body);
 
-                    case 19:
+                        debug(versions_object);
+                        project_versions = [];
+                        _iteratorNormalCompletion = true;
+                        _didIteratorError = false;
+                        _iteratorError = undefined;
+                        _context13.prev = 23;
+
+                        for (_iterator = versions_object.versions[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            version = _step.value;
+
+                            project_versions.push(version._id);
+                        }
+                        _context13.next = 31;
+                        break;
+
+                    case 27:
+                        _context13.prev = 27;
+                        _context13.t1 = _context13['catch'](23);
+                        _didIteratorError = true;
+                        _iteratorError = _context13.t1;
+
+                    case 31:
+                        _context13.prev = 31;
+                        _context13.prev = 32;
+
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+
+                    case 34:
+                        _context13.prev = 34;
+
+                        if (!_didIteratorError) {
+                            _context13.next = 37;
+                            break;
+                        }
+
+                        throw _iteratorError;
+
+                    case 37:
+                        return _context13.finish(34);
+
+                    case 38:
+                        return _context13.finish(31);
+
+                    case 39:
+                        versions_object.project_versions = project_versions;
+                        return _context13.abrupt('return', versions_object);
+
+                    case 43:
                         if (statusCode == 401) {
                             ctx.redirect('/login');
                         }
 
-                    case 20:
+                    case 44:
                         return _context13.abrupt('return', null);
 
-                    case 21:
+                    case 45:
                     case 'end':
                         return _context13.stop();
                 }
             }
-        }, _callee13, this, [[4, 10]]);
+        }, _callee13, this, [[4, 10], [23, 27, 31, 39], [32,, 34, 38]]);
     }));
 
     return function getProjectVewsions(_x26) {
@@ -1138,21 +1188,24 @@ function createWithData(ctx, data) {
  * @param projects {array}
  * @param error {string}
  */
-function detailWithData(ctx, data) {
+function renderDetailWithData(ctx, data) {
     data.main_menu = render_data.mainMenuData(ctx);
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/detail'), data);
     ctx.body = html;
 }
 
-function createPatchWithData(ctx, data) {
+function renderCreatePatchWithData(ctx, data) {
     data.main_menu = render_data.mainMenuData(ctx);
-    data.config_env = process.env.NODE_ENV || 'default';
+
+    // config js
+    data.node_env = process.env.NODE_ENV || 'default';
+
     debug(data);
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/new-patch'), data);
     ctx.body = html;
 }
 
-function setInfoWithData(ctx, data, project_id) {
+function renderSetInfoWithData(ctx, data, project_id) {
     // main menu
     data.main_menu = render_data.mainMenuData(ctx);
 
@@ -1165,6 +1218,9 @@ function setInfoWithData(ctx, data, project_id) {
     data.project_set_menu = {
         id: project_id
     };
+
+    // config js
+    data.node_env = process.env.NODE_ENV || 'default';
 
     debug(data);
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/set-info'), data);
@@ -1185,8 +1241,8 @@ function setMembersWithData(ctx, data, project_id) {
         id: project_id
     };
 
-    // web config env
-    data.config_env = process.env.NODE_ENV || 'default';
+    // config js
+    data.node_env = process.env.NODE_ENV || 'default';
 
     debug(data);
     var html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/project/set-members'), data);

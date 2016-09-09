@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
     <title>Register</title>
 </head>
 <body>
@@ -14,27 +14,27 @@
     {{/if}}
 
     <form action="/register" method="post">
-        <div>
+        <p>
             <label for="email">Username</label>
             <input autocapitalize="off" autocorrect="off" {{email_autofocus}} id="email" name="email" tabindex="1"
                    type="email" value="{{email}}">
             <p class="error-message">{{email_error}}</p>
-        </div>
-        <div>
+        </p>
+        <p>
             <label for="password">Password</label>
             <input id="password" name="password" {{password_autofocus}} tabindex="2" type="password" value="{{password}}">
             <p class="error-message">{{password_error}}</p>
-        </div>
-        <div>
+        </p>
+        <p>
             <label for="confirm-password">Confirm Password</label>
             <input id="confirm-password" name="confirm_password" {{confirm_password_autofocus}} tabindex="3" type="password" value="{{confirm_password}}">
             <p class="error-message">{{confirm_password_error}}</p>
-        </div>
-        <div>
+        </p>
+        <p>
             <input tabindex="4" value="Sign up" type="submit">
-        </div>
+        </p>
     </form>
 </div>
-<script src="/javascripts/user.js"></script>
+<script src="/js/user.js"></script>
 </body>
 </html>

@@ -1,1 +1,0 @@
-{"version":3,"sources":["js/config.js"],"names":["back_address","front_address"],"mappings":";;AAAA;;;;AAIA,IAAMA,eAAe,uBAArB;AACA,IAAMC,gBAAgB,uBAAtB","file":"js/config.js","sourcesContent":["/**\n * Created by Bell on 16/9/7.\n */\n\nconst back_address = 'http://localhost:4002';\nconst front_address = 'http://localhost:4001';"],"sourceRoot":"/source/"}

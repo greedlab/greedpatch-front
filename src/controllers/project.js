@@ -75,7 +75,7 @@ export async function detail(ctx, next) {
             response = await request.getAsync(options);
         } catch (err) {
             data.error = 'Get project detail failed';
-            detailWithData(ctx, data);
+            renderDetailWithData(ctx, data);
             return;
         }
 
@@ -88,7 +88,7 @@ export async function detail(ctx, next) {
             return;
         } else {
             data.error = 'Get project detail failed';
-            detailWithData(ctx, data);
+            renderDetailWithData(ctx, data);
             return;
         }
     }
@@ -107,7 +107,7 @@ export async function detail(ctx, next) {
             response = await request.getAsync(options);
         } catch (err) {
             data.error = 'Get patches failed';
-            detailWithData(ctx, data);
+            renderDetailWithData(ctx, data);
             return;
         }
 
@@ -120,12 +120,12 @@ export async function detail(ctx, next) {
             return;
         } else {
             data.error = 'Get patches failed';
-            detailWithData(ctx, data);
+            renderDetailWithData(ctx, data);
             return;
         }
     }
 
-    detailWithData(ctx, data);
+    renderDetailWithData(ctx, data);
 }
 
 export async function create(ctx, next) {
@@ -192,9 +192,10 @@ export async function createPatch(ctx, next) {
     data.id = project_id;
 
     // project versions
-    const version_object = await getProjectVewsions(ctx);
-    if (version_object) {
-        data.project_versions = version_object.versions;
+    const versions_object = await getProjectVewsions(ctx);
+    if (versions_object) {
+        data.project_versions = versions_object.project_versions;
+        data.project_name = versions_object.project_name;
     }
 
     // project menu
@@ -202,7 +203,7 @@ export async function createPatch(ctx, next) {
         id: project_id
     };
 
-    createPatchWithData(ctx, data);
+    renderCreatePatchWithData(ctx, data);
 }
 
 export async function createPatchRequest(ctx, next) {
@@ -225,7 +226,7 @@ export async function createPatchRequest(ctx, next) {
         response = await request.postAsync(options);
     } catch (err) {
         data.error = 'Create patch failed';
-        createPatchWithData(ctx, data);
+        renderCreatePatchWithData(ctx, data);
         return;
     }
 
@@ -242,9 +243,6 @@ export async function createPatchRequest(ctx, next) {
                 if (error.field == 'project_version') {
                     data.project_version_autofocus = 'autofocus';
                     data.project_version_error = body.message;
-                } else if (error.field == 'patch_version') {
-                    data.patch_version_autofocus = 'autofocus';
-                    data.patch_version_error = body.message;
                 } else if (error.field == 'hash') {
                     data.hash_autofocus = 'autofocus';
                     data.hash_error = body.message;
@@ -269,7 +267,7 @@ export async function createPatchRequest(ctx, next) {
     };
 
     data.id = project_id;
-    createPatchWithData(ctx, data);
+    renderCreatePatchWithData(ctx, data);
 }
 
 export async function setInfo(ctx, next) {
@@ -291,7 +289,7 @@ export async function setInfo(ctx, next) {
             response = await request.getAsync(options);
         } catch (err) {
             data.error = 'Get project detail failed';
-            setInfoWithData(ctx, data, project_id);
+            renderSetInfoWithData(ctx, data, project_id);
             return;
         }
 
@@ -304,11 +302,11 @@ export async function setInfo(ctx, next) {
             return;
         } else if (statusCode === 422) {
             data.error = body.message;
-            setInfoWithData(ctx, data, project_id);
+            renderSetInfoWithData(ctx, data, project_id);
             return;
         } else {
             data.error = 'Get project detail failed';
-            setInfoWithData(ctx, data, project_id);
+            renderSetInfoWithData(ctx, data, project_id);
             return;
         }
     }
@@ -327,7 +325,7 @@ export async function setInfo(ctx, next) {
             response = await request.getAsync(options);
         } catch (err) {
             data.error = 'Get patches failed';
-            setInfoWithData(ctx, data, project_id);
+            renderSetInfoWithData(ctx, data, project_id);
             return;
         }
 
@@ -340,16 +338,16 @@ export async function setInfo(ctx, next) {
             return;
         } else if (statusCode === 422) {
             data.error = body.message;
-            setInfoWithData(ctx, data, project_id);
+            renderSetInfoWithData(ctx, data, project_id);
             return;
         } else {
             data.error = 'Get patches failed';
-            setInfoWithData(ctx, data, project_id);
+            renderSetInfoWithData(ctx, data, project_id);
             return;
         }
     }
 
-    setInfoWithData(ctx, data, project_id);
+    renderSetInfoWithData(ctx, data, project_id);
 }
 
 export async function setInfoRequest(ctx, next) {
@@ -376,7 +374,7 @@ export async function setInfoRequest(ctx, next) {
         response = await request.postAsync(options);
     } catch (err) {
         data.error = 'Update project info failed';
-        setInfoWithData(ctx, data, project_id);
+        renderSetInfoWithData(ctx, data, project_id);
         return;
     }
 
@@ -391,16 +389,16 @@ export async function setInfoRequest(ctx, next) {
         if (body.field = 'name') {
             data.name_error = body.message;
             data.name_autofocus = 'autofocus';
-            setInfoWithData(ctx, data, project_id);
+            renderSetInfoWithData(ctx, data, project_id);
             return;
         } else {
             data.error = body.message;
-            setInfoWithData(ctx, data, project_id);
+            renderSetInfoWithData(ctx, data, project_id);
             return;
         }
     } else {
         data.error = 'Update project info failed';
-        setInfoWithData(ctx, data, project_id);
+        renderSetInfoWithData(ctx, data, project_id);
         return;
     }
 }
@@ -566,8 +564,16 @@ async function getProjectVewsions(ctx) {
 
     const statusCode = response.statusCode;
     const body = response.body;
+    debug(body);
     if (statusCode >= 200 && statusCode < 300) {
-        return JSON.parse(body);
+        let versions_object = JSON.parse(body);
+        debug(versions_object);
+        let project_versions = [];
+        for (let version of versions_object.versions) {
+            project_versions.push(version._id);
+        }
+        versions_object.project_versions = project_versions;
+        return versions_object;
     } else if (statusCode == 401) {
         ctx.redirect('/login');
     }
@@ -597,21 +603,24 @@ function createWithData(ctx, data) {
  * @param projects {array}
  * @param error {string}
  */
-function detailWithData(ctx, data) {
+function renderDetailWithData(ctx, data) {
     data.main_menu = render_data.mainMenuData(ctx);
     let html = template(path.join(__dirname, '../views/project/detail'), data);
     ctx.body = html;
 }
 
-function createPatchWithData(ctx, data) {
+function renderCreatePatchWithData(ctx, data) {
     data.main_menu = render_data.mainMenuData(ctx);
-    data.config_env = process.env.NODE_ENV || 'default';
+
+    // config js
+    data.node_env = process.env.NODE_ENV || 'default';
+
     debug(data);
     let html = template(path.join(__dirname, '../views/project/new-patch'), data);
     ctx.body = html;
 }
 
-function setInfoWithData(ctx, data, project_id) {
+function renderSetInfoWithData(ctx, data, project_id) {
     // main menu
     data.main_menu = render_data.mainMenuData(ctx);
 
@@ -624,6 +633,9 @@ function setInfoWithData(ctx, data, project_id) {
     data.project_set_menu = {
         id: project_id
     };
+
+    // config js
+    data.node_env = process.env.NODE_ENV || 'default';
 
     debug(data);
     let html = template(path.join(__dirname, '../views/project/set-info'), data);
@@ -644,8 +656,8 @@ function setMembersWithData(ctx, data, project_id) {
         id: project_id
     };
 
-    // web config env
-    data.config_env = process.env.NODE_ENV || 'default';
+    // config js
+    data.node_env = process.env.NODE_ENV || 'default';
 
     debug(data);
     let html = template(path.join(__dirname, '../views/project/set-members'), data);

@@ -1,10 +1,20 @@
 <div class="main-menu">
-    <a href="/">GreedPatch</a>
-    {{if admin}}
-    <a href="/admin">Admin</a>
-    {{/if}}
-    <a href="/settings">{{user_email}}</a>
-    <form action="/logout" method="post" style="display: inline">
-        <input type="submit", value="Logout">
-    </form>
+    <ul class="horizontal-menu">
+        <li class="horizontal-left-menu">
+            <a class="horizontal-left-menu-content" href="/">GreedPatch</a>
+        </li>
+        <li class="horizontal-right-menu">
+            <form class="horizontal-right-menu-content" action="/logout" method="post">
+                <input type="submit" value="Logout">
+            </form>
+        </li>
+        <li class="horizontal-right-menu">
+            <a class="horizontal-right-menu-content" href="/settings">{{user_email}}</a>
+        </li>
+        {{if admin}}
+        <li class="horizontal-right-menu">
+            <a class="horizontal-right-menu-content" href="/admin">Admin</a>
+        </li>
+        {{/if}}
+    </ul>
 </div>

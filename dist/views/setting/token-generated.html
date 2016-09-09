@@ -33,6 +33,13 @@
     </div>
 </div>
 
+{{if node_env}}
+<script src='/js/config/{{node_env}}.js'></script>
+{{else}}
+<script src='/js/config/default.js'></script>
+{{/if}}
+
+<script src='/js/util.js'></script>
 <script src="/js/setting.js"></script>
 
 </body>

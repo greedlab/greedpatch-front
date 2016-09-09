@@ -4,17 +4,41 @@
  * Created by Bell on 16/9/1.
  */
 
-function showProjectVersionsSelect() {
-    var dom = document.getElementById('project_versions_select');
-    dom.removeAttribute('hidden');
-}
+function updatePatchVersion() {
+    var versions_string = $('#versions-string').text();
+    var versions = JSON.parse(versions_string);
+    var project_version = $('#project-version').val();
+    var patch_version = 1;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-function hideProjectVersionsSelect() {
-    var dom = document.getElementById('project_versions_select');
-    dom.hidden = "hidden";
-}
+    try {
+        for (var _iterator = versions[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var version = _step.value;
 
-function projectVersionsSelected() {}
+            if (version._id == project_version) {
+                patch_version = Number(version.patch_version) + 1;
+                break;
+            }
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    $('#patch-version').val(patch_version);
+}
 
 function uploadFile() {
     var formData = new FormData();

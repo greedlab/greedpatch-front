@@ -2,18 +2,18 @@
  * Created by Bell on 16/9/1.
  */
 
-function showProjectVersionsSelect() {
-    let dom = document.getElementById('project_versions_select');
-    dom.removeAttribute('hidden');
-}
-
-function hideProjectVersionsSelect() {
-    let dom = document.getElementById('project_versions_select');
-    dom.hidden = "hidden";
-}
-
-function projectVersionsSelected() {
-
+function updatePatchVersion() {
+    const versions_string = $('#versions-string').text();
+    const versions = JSON.parse(versions_string);
+    const project_version = $('#project-version').val();
+    let patch_version = 1;
+    for (let version of versions) {
+        if (version._id == project_version) {
+            patch_version = Number(version.patch_version) + 1;
+            break;
+        }
+    }
+    $('#patch-version').val(patch_version);
 }
 
 function uploadFile() {

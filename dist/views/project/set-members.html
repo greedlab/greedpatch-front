@@ -17,11 +17,13 @@
     {{include './element/project-menu' project_menu}}
     {{include './element/project-set-menu' project_set_menu}}
     <div class="project-set-content">
+        <p></p>
         {{if error}}
         <p class="error-message">{{error}}</p>
         {{/if}}
         {{include './element/project-members' detail}}
 
+        <p></p>
         <form action="/projects/{{detail._id}}/members" method="POST">
             <input name="email" {{add_email_autofocus}} type="text" value="{{add_email}}">
             <input type="submit" value="Add member">
@@ -32,7 +34,12 @@
     </div>
 </div>
 
-<script src="/js/config/{{config_env}}.js"></script>
+{{if node_env}}
+<script src='/js/config/{{node_env}}.js'></script>
+{{else}}
+<script src='/js/config/default.js'></script>
+{{/if}}
+
 <script src="/js/project.js"></script>
 </body>
 </html>

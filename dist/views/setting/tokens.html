@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/css/setting.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <title>My account</title>
 </head>
 <body>
@@ -46,6 +47,15 @@
 
     </div>
 </div>
+
+{{if node_env}}
+<script src='/js/config/{{node_env}}.js'></script>
+{{else}}
+<script src='/js/config/default.js'></script>
+{{/if}}
+
+<script src='/js/util.js'></script>
+<script src="/js/setting.js"></script>
 
 </body>
 </html>

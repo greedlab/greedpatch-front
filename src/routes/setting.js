@@ -19,7 +19,8 @@ router
     .get('/my/tokens', ensureToken, controller.tokens)
     .get('/my/tokens/new', ensureToken, controller.generateToken)
     .post('/my/tokens/new', ensureToken, controller.generateTokenRequest)
-    .get('/my/tokens/:id', ensureToken, controller.tokenDetail);
+    .get('/my/tokens/:id', ensureToken, controller.tokenDetail)
+    .post('/my/tokens/:id', ensureToken, controller.tokenDetailRequest);
 
 export default {
     baseUrl: base_url,

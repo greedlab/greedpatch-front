@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/css/project.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <title>Setting info</title>
 </head>
 <body>
@@ -14,32 +15,47 @@
     {{include './element/project-menu' project_menu}}
     {{include './element/project-set-menu' project_set_menu}}
     <div class="project-set-content">
+        {{if error}}
         <p class="error-message">{{error}}</p>
+        {{/if}}
         <form action="/projects/{{content._id}}/info" method="POST">
-            <div>
+            <p>
                 <label for="name">Project name</label>
                 <input id="name" name="name" {{name_autofocus}} tabindex="1" type="text"
                        placeholder="input the name of the project" value="{{content.name}}">
                 {{if content.name_error}}
                 <p class="error-message">{{name_error}}</p>
                 {{/if}}
-            </div>
-            <div>
+            </p>
+            <p>
                 <label for="bundle_id">Bundle ID</label>
                 <input id="bundle_id" name="bundle_id" {{bundle_id_autofocus}} tabindex="2" type="text"
                        placeholder="input the Identity  of the project" value="{{content.bundle_id}}">
-            </div>
-            <div>
+            </p>
+            <p>
                 <label for="introduction">Introduction</label>
                 <textarea class="project-introduction" id="introduction" name="introduction"
                           {{introduction_autofocus}} tabindex="3"
                           placeholder="Input the introduction of the project">
 {{content.introduction}}
                 </textarea>
-            </div>
+            </p>
             <input tabindex="4" type="submit" value="Modify">
         </form>
     </div>
+
+    <p>
+        <input type="button" value="Delete" onclick=deleteProject("{{content._id}}")>
+    </p>
 </div>
+
+{{if node_env}}
+<script src='/js/config/{{node_env}}.js'></script>
+{{else}}
+<script src='/js/config/default.js'></script>
+{{/if}}
+
+<script src="/js/project.js"></script>
+
 </body>
 </html>

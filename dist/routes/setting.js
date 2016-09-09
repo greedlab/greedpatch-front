@@ -24,7 +24,7 @@ var base_url = '/settings'; /**
 
 var router = new _koaRouter2.default({ prefix: base_url });
 
-router.get('/', _token.ensureToken, controller.profile).get('/my/profile', _token.ensureToken, controller.profile).get('/my/account', _token.ensureToken, controller.account).post('/my/account', _token.ensureToken, controller.modifyPassword).get('/my/tokens', _token.ensureToken, controller.tokens).get('/my/tokens/new', _token.ensureToken, controller.generateToken).post('/my/tokens/new', _token.ensureToken, controller.generateTokenRequest).get('/my/tokens/:id', _token.ensureToken, controller.tokenDetail);
+router.get('/', _token.ensureToken, controller.profile).get('/my/profile', _token.ensureToken, controller.profile).get('/my/account', _token.ensureToken, controller.account).post('/my/account', _token.ensureToken, controller.modifyPassword).get('/my/tokens', _token.ensureToken, controller.tokens).get('/my/tokens/new', _token.ensureToken, controller.generateToken).post('/my/tokens/new', _token.ensureToken, controller.generateTokenRequest).get('/my/tokens/:id', _token.ensureToken, controller.tokenDetail).post('/my/tokens/:id', _token.ensureToken, controller.tokenDetailRequest);
 
 exports.default = {
     baseUrl: base_url,

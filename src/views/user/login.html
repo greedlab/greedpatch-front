@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/stylesheets/style.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
     <title>Login</title>
 </head>
 <body>
@@ -14,28 +14,28 @@
     {{/if}}
 
     <form action="/login" method="post">
-        <div>
+        <p>
             <label for="email">Email</label>
             <input id="email" autocapitalize="off" autocorrect="off" {{email_autofocus}} name="email" tabindex="1" type="email" value="{{email}}">
             {{if email_error}}
             <p class="error-message">{{email_error}}</p>
             {{/if}}
-        </div>
-        <div>
+        </p>
+        <p>
             <label for="password">Password</label>
             <input id="password" {{password_autofocus}} name="password" tabindex="2" type="password" value="{{password}}">
             {{if password_error}}
             <p class="error-message">{{password_error}}</p>
             {{/if}}
-        </div>
-        <div>
+        </p>
+        <p>
             <input tabindex="3" value="Sign in" type="submit">
-        </div>
+        </p>
     </form>
     <p>
         <a href="/register">Create an account</a>.
     </p>
 </div>
-<script src = "/javascripts/user.js"></script>
+<script src = "/js/user.js"></script>
 </body>
 </html>

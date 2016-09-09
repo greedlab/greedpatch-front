@@ -486,6 +486,8 @@ var tokenDetailRequest = exports.tokenDetailRequest = function () {
                     case 0:
                         bearerToken = token.bearerToken(ctx);
                         request_body = ctx.request.body;
+
+                        debug(request_body);
                         token_id = ctx.params.id;
                         data = request_body;
 
@@ -503,30 +505,31 @@ var tokenDetailRequest = exports.tokenDetailRequest = function () {
                             body: request_body
                         };
                         response = null;
-                        _context8.prev = 7;
-                        _context8.next = 10;
+                        _context8.prev = 8;
+                        _context8.next = 11;
                         return request.postAsync(options);
 
-                    case 10:
+                    case 11:
                         response = _context8.sent;
-                        _context8.next = 18;
+                        _context8.next = 19;
                         break;
 
-                    case 13:
-                        _context8.prev = 13;
-                        _context8.t0 = _context8['catch'](7);
+                    case 14:
+                        _context8.prev = 14;
+                        _context8.t0 = _context8['catch'](8);
 
-                        data.error = 'Generate new token failed';
-                        renderGeneratedTokenWithData(ctx, data);
+                        data.error = 'Get token detail failed';
+                        renderTokenDetailWithData(ctx, data);
                         return _context8.abrupt('return');
 
-                    case 18:
+                    case 19:
                         statusCode = response.statusCode;
                         body = response.body;
 
                         debug(body);
                         if (statusCode >= 200 && statusCode < 300) {
-                            renderGeneratedTokenWithData(ctx, body);
+                            data.token = body;
+                            renderTokenDetailWithData(ctx, data);
                         } else if (statusCode === 401) {
                             ctx.redirect('/login');
                         } else if (statusCode === 422) {
@@ -536,27 +539,24 @@ var tokenDetailRequest = exports.tokenDetailRequest = function () {
                                 if (error.field == 'password') {
                                     data.password_error = body.message;
                                     data.password_autofocus = 'autofocus';
-                                } else if (error.field == 'name') {
-                                    data.name_error = body.message;
-                                    data.name_autofocus = 'autofocus';
                                 } else {
                                     data.error = body.message;
                                 }
                             } else {
                                 data.error = body.message;
                             }
-                            renderGenerateTokenWithData(ctx, data);
+                            renderTokenDetailWithData(ctx, data);
                         } else {
-                            data.error = 'Modify password failed';
-                            renderGenerateTokenWithData(ctx, data);
+                            data.error = 'Get token detail failed';
+                            renderTokenDetailWithData(ctx, data);
                         }
 
-                    case 22:
+                    case 23:
                     case 'end':
                         return _context8.stop();
                 }
             }
-        }, _callee8, this, [[7, 13]]);
+        }, _callee8, this, [[8, 14]]);
     }));
 
     return function tokenDetailRequest(_x15, _x16) {
@@ -632,12 +632,15 @@ var renderTokensWithData = function () {
                         // main menu
                         data.main_menu = render_data.mainMenuData(ctx);
 
+                        // config js
+                        data.node_env = process.env.NODE_ENV || 'default';
+
                         debug(data);
                         html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/setting/tokens'), data);
 
                         ctx.body = html;
 
-                    case 4:
+                    case 5:
                     case 'end':
                         return _context11.stop();
                 }
@@ -688,12 +691,15 @@ var renderGeneratedTokenWithData = function () {
                         // main menu
                         data.main_menu = render_data.mainMenuData(ctx);
 
+                        // config js
+                        data.node_env = process.env.NODE_ENV || 'default';
+
                         debug(data);
                         html = (0, _artTemplate2.default)(_path2.default.join(__dirname, '../views/setting/token-generated'), data);
 
                         ctx.body = html;
 
-                    case 4:
+                    case 5:
                     case 'end':
                         return _context13.stop();
                 }

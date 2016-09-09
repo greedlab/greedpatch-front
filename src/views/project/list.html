@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/project.css"/>
     <title>Project List</title>
 </head>
 <body>
@@ -14,7 +15,7 @@
     <p class="error-message">{{error}}</p>
     <ul>
         {{each projects}}
-        <li><a href="/projects/{{$value._id}}">{{$value.name}}</a></li>
+        <li class="project-list"><a href="/projects/{{$value._id}}">{{$value.name}}</a></li>
         {{/each}}
     </ul>
 
