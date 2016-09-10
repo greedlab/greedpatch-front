@@ -18,7 +18,7 @@ function mainMenuData(ctx) {
         main_menu.user_email = user_email;
     }
     var role = cookie.getUserRole(ctx);
-    if (role === 1) {
+    if (role == 1) {
         main_menu.admin = 1;
     }
     return main_menu;

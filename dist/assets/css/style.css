@@ -13,10 +13,12 @@ ul.horizontal-menu {
   overflow: hidden; }
 
 li.horizontal-left-menu {
-  float: left; }
+  float: left;
+  padding-left: 10px; }
 
 li.horizontal-right-menu {
-  float: right; }
+  float: right;
+  padding-right: 10px; }
 
 .horizontal-left-menu-content {
   display: block;
