@@ -24,9 +24,7 @@ $ npm run develop
 ## production env
 
 ```
-$ npm install -g gulp
 $ npm install -g pm2
-$ npm install (if not OS X use npm install --no-optional)
-$ gulp release
+$ npm install --production
 $ npm run release
 ```
