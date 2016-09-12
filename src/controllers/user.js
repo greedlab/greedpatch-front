@@ -9,8 +9,8 @@ import Request from 'request';
 import bluebird from 'bluebird';
 
 import config from '../config';
-import * as token from '../utils/token';
-import * as cookie from '../utils/cookie';
+import * as token from '../tools/token';
+import * as cookie from '../tools/cookie';
 
 import Debug from 'debug';
 import pkg from '../../package.json';

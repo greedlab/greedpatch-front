@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mainMenuData = mainMenuData;
 
-var _cookie = require('../utils/cookie');
+var _cookie = require('./cookie');
 
 var cookie = _interopRequireWildcard(_cookie);
 

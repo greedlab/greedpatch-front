@@ -8,7 +8,7 @@ var _koaRouter = require('koa-router');
 
 var _koaRouter2 = _interopRequireDefault(_koaRouter);
 
-var _token = require('../utils/token');
+var _token = require('../tools/token');
 
 var _setting = require('../controllers/setting');
 

@@ -4,7 +4,7 @@
 
 import Router from 'koa-router';
 
-import { ensureToken } from '../utils/token';
+import { ensureToken } from '../tools/token';
 
 import * as controller from '../controllers/setting';
 

@@ -7,7 +7,7 @@ exports.bearerTokenFromToken = bearerTokenFromToken;
 exports.bearerToken = bearerToken;
 exports.ensureToken = ensureToken;
 
-var _cookie = require('./../tools/cookie');
+var _cookie = require('./cookie');
 
 var cookie = _interopRequireWildcard(_cookie);
 

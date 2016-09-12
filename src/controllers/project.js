@@ -9,7 +9,7 @@ import Request from 'request';
 import bluebird from 'bluebird';
 
 import config from '../config';
-import * as token from '../utils/token';
+import * as token from '../tools/token';
 
 import * as render_data from '../tools/data';
 

@@ -12,7 +12,7 @@ var _patch = require('../controllers/patch');
 
 var controller = _interopRequireWildcard(_patch);
 
-var _token = require('../utils/token');
+var _token = require('../tools/token');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

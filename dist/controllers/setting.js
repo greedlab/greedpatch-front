@@ -760,11 +760,11 @@ var _config = require('../config');
 
 var _config2 = _interopRequireDefault(_config);
 
-var _cookie = require('../utils/cookie');
+var _cookie = require('../tools/cookie');
 
 var cookie = _interopRequireWildcard(_cookie);
 
-var _token = require('../utils/token');
+var _token = require('../tools/token');
 
 var token = _interopRequireWildcard(_token);
 

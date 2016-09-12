@@ -2,12 +2,15 @@
  * Created by Bell on 16/9/1.
  */
 
+import config from '../config';
+
 const token_key = 'token';
 const user_role_key = 'user_role';
 const user_email_key = 'user_email';
 
 export function setToken(ctx, token) {
     ctx.cookies.set(token_key, token, {
+        domain: config.cookie_domain,
         signed: true,
         httpOnly: true,
         maxAge: maxAge()
@@ -28,6 +31,7 @@ export function clearToken(ctx) {
 
 export function setUserRole(ctx, token) {
     ctx.cookies.set(user_role_key, token, {
+        domain: config.cookie_domain,
         signed: true,
         httpOnly: true,
         maxAge: maxAge()
@@ -48,6 +52,7 @@ export function clearUserRole(ctx) {
 
 export function setUserEmail(ctx, token) {
     ctx.cookies.set(user_email_key, token, {
+        domain: config.cookie_domain,
         httpOnly: true,
         maxAge: maxAge()
     });

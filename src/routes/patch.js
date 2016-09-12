@@ -5,7 +5,7 @@
 import Router from 'koa-router';
 
 import * as controller from '../controllers/patch';
-import { ensureToken } from '../utils/token';
+import { ensureToken } from '../tools/token';
 
 const base_url = '/patches';
 const router = new Router({ prefix: base_url });

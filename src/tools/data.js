@@ -2,7 +2,7 @@
  * Created by Bell on 16/9/7.
  */
 
-import * as cookie from '../utils/cookie';
+import * as cookie from './cookie';
 
 export function mainMenuData(ctx) {
     let main_menu = {};
