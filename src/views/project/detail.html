@@ -20,13 +20,15 @@
         <tr>
             <th>App Version</th>
             <th>Patch Version</th>
-            <th>Patch File</th>
+            <th>Patch Hash</th>
+            <th>Patch File URL</th>
         </tr>
         {{each patches}}
         <tr>
             <td>{{$value.project_version}}</td>
             <td>{{$value.patch_version}}</td>
-            <td><a href={{$value.patch_url}}>{{$value.patch_url}}</a>
+            <td>{{$value.hash}}</td>
+            <td><a href={{$value.patch_url}} target="_blank">{{$value.patch_url}}</a>
             </td>
         </tr>
         {{/each}}
