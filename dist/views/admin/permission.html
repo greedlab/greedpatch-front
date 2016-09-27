@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>Permission Manager</title>
+</head>
+<body>
+
+{{include '../element/main-menu' main_menu}}
+
+<div class="content">
+    {{include './element/admin-menu' admin_menu}}
+    <div class="admin-content">
+        <h1>Permission Manager</h1>
+        {{if error}}
+        <p class="error-message">{{error}}</p>
+        {{/if}}
+        <form action="/admin/permission" method="post">
+            <p>
+                <input id="all-can" type="radio" name="permission" value=0 {{if permission.permission == 0}} checked {{/if}}>
+                <label for="all-can">All can register</label>
+            </p>
+            <p>
+                <input id="all-can-not" type="radio" name="permission" value=1 {{if permission.permission == 1}} checked {{/if}}>
+                <label for="all-can-not">All can not register</label>
+            </p>
+            <p>
+                <input id="fixed-can" type="radio" name="permission" value=2 {{if permission.permission == 2}} checked {{/if}}>
+                <label for="fixed-can">Fixed emails can register</label>
+            </p>
+            <p>
+                <textarea class="domains-input" name="domains" {{domains_autofocus}} placeholder="Input domains,split with comma. example: greedlab.com,example.com">{{permission.domains}}</textarea>
+            </p>
+            <p>
+                <input type="submit" value="Submit">
+            </p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -28,14 +28,16 @@ function deleteMember(project_id, member_id) {
 
 function deleteProject(project_id, member_id) {
     $.ajax({
-        url: back_address + '/projects/' + project_id,
-        type: 'DELETE',
+        url: back_address + '/projects/' + project_id + '/status',
+        type: 'POST',
         xhrFields: {
             withCredentials: true
         },
+        data: JSON.stringify({ status: 1 }),
         async: false,
         cache: false,
-        contentType: false,
+        dataType: 'json',
+        contentType: 'application/json',
         processData: false,
         success: function success(data, textStatus) {
             window.location.href = "/";

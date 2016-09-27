@@ -12,6 +12,7 @@ import config from '../config';
 import home from '../routes/home';
 import project from '../routes/project';
 import setting from '../routes/setting';
+import admin from '../routes/admin';
 
 import Debug from 'debug';
 import pkg from '../../package.json';
@@ -58,7 +59,9 @@ app
     .use(project.router.routes())
     .use(project.router.allowedMethods())
     .use(setting.router.routes())
-    .use(setting.router.allowedMethods());
+    .use(setting.router.allowedMethods())
+    .use(admin.router.routes())
+    .use(admin.router.allowedMethods());
 
 // listen
 

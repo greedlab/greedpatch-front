@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <title>User Manager</title>
+</head>
+<body>
+
+{{include '../element/main-menu' main_menu}}
+
+<div class="content">
+    {{include './element/admin-menu' admin_menu}}
+    <div class="admin-content">
+        <h1>User Manager</h1>
+        {{if error}}
+        <p class="error-message">{{error}}</p>
+        {{/if}}
+        <table border="1">
+            <tr>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            {{each users}}
+            <tr>
+                <td>{{$value.email}}</td>
+                <td>
+                    {{if $value.status > 0}}
+                    disabled
+                    {{else}}
+                    actived
+                    {{/if}}
+                </td>
+                <td>
+                    {{if $value.role != 1}}
+                    {{if $value.status > 0}}
+                    <input type="button" value="Active" onclick=activeUser("{{$value._id}}")>
+                    {{else}}
+                    <input type="button" value="Disable" onclick=disableUser("{{$value._id}}")>
+                    {{/if}}
+                    <form action="/admin/users/{{$value._id}}/modify-password" method="get">
+                        <!--<input type="button" value="Modify password" onclick=modifyPassword("{{$value._id}}")>-->
+                        <input type="submit" value="Modify password")>
+                    </form>
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</div>
+
+{{if node_env}}
+<script src='/js/config/{{node_env}}.js'></script>
+{{else}}
+<script src='/js/config/default.js'></script>
+{{/if}}
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

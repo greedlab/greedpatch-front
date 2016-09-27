@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <title>Project Manager</title>
+</head>
+<body>
+
+{{include '../element/main-menu' main_menu}}
+
+<div class="content">
+    {{include './element/admin-menu' admin_menu}}
+    <div class="admin-content">
+        <h1>Project Manager</h1>
+        {{if error}}
+        <p class="error-message">{{error}}</p>
+        {{/if}}
+        <table border="1">
+            <tr>
+                <th>Project name</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            {{each projects}}
+            <tr>
+                <td>
+                    <a href="/projects/{{$value._id}}">{{$value.name}}</a>
+                </td>
+                <td>
+                    {{$value.members[0].email}}
+                </td>
+                <td>
+                    {{if $value.status == 1}}
+                    Deleted
+                    {{else}}
+                    Valid
+                    {{/if}}
+                </td>
+                <td>
+                    {{if $value.status == 1}}
+                    <input type="button" value="Recover" onclick=recoverProject("{{$value._id}}")>
+                    {{else}}
+                    <input type="button" value="Delete" onclick=deleteProject("{{$value._id}}")>
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</div>
+
+{{if node_env}}
+<script src='/js/config/{{node_env}}.js'></script>
+{{else}}
+<script src='/js/config/default.js'></script>
+{{/if}}
+
+<script src="/js/admin.js"></script>
+</body>
+</html>
