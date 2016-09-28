@@ -207,6 +207,8 @@ var registerRequest = exports.registerRequest = function () {
                                 } else {
                                     data.error = body.message;
                                 }
+                            } else if (response.statusCode == 403) {
+                                data.error = 'No permission to register';
                             } else {
                                 data.error = 'Register failed';
                             }
