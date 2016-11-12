@@ -1,13 +1,13 @@
-# node-front-template
+# greedpatch-front
 
-基于 node.js 的前端模板
+[greedpatch](https://patch.greedlab.com/) 的前端
 
 [English](README.md) | 中文
 
 ## clone
 
 ```
-$ git clone https://github.com/greedlab/node-front-template.git
+$ git clone https://github.com/greedlab/greedpatch-front.git
 ```
 
 ## 开发环境

@@ -1,6 +1,6 @@
-# node-front-template
+# greedpatch-front
 
-template for front end based on node.js
+front end for [greedpatch](https://patch.greedlab.com/)
 
 English | [中文](README-CN.md)
 
@@ -9,7 +9,7 @@ English | [中文](README-CN.md)
 ### clone
 
 ```
-$ git clone https://github.com/greedlab/node-front-template.git
+$ git clone https://github.com/greedlab/greedpatch-front.git
 ```
 
 ### develop env
@@ -43,12 +43,12 @@ The first user will be the administrator.
 
 ### Login
 
-* <http://patch.greedlab.com/login>
+* <https://patch.greedlab.com/login>
 
 
 ### Create project
 
-* <http://patch.greedlab.com/projects/new>
+* <https://patch.greedlab.com/projects/new>
 
 
 ### Create patch
@@ -57,6 +57,6 @@ The first user will be the administrator.
 
 ### Create access token
 
-* <http://patch.greedlab.com/settings/my/tokens/new>
+* <https://patch.greedlab.com/settings/my/tokens/new>
 
 And then, you can use the token to [check new patch](https://github.com/greedlab/greedpatch-document/blob/master/api/patch/check.md)
