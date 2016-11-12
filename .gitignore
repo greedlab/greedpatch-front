@@ -46,3 +46,5 @@ jspm_packages
 # web config
 **/config/develop.js*
 **/config/release.js*
+
+sync-config.sh
